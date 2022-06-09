@@ -33,9 +33,7 @@ steps:
             command: |
               sudo apk add --no-cache python3
               sudo python3 -m ensurepip
-              sudo rm -r /usr/lib/python*/ensurepip
-              sudo pip3 install --upgrade pip
-              if [ ! -e /usr/bin/pip ]; then sudo ln -s /usr/bin/pip3 /usr/bin/pip ; fi
+              sudo ln -s /usr/bin/pip3 /usr/bin/pip
               sudo ln -s /usr/bin/pydoc3 /usr/bin/pydoc
               sudo ln -s /usr/bin/python3 /usr/bin/python
               sudo ln -s /usr/bin/python3-config /usr/bin/python-config
@@ -46,7 +44,7 @@ steps:
         equals: [ << parameters.os >>, "Debian" ]
       steps:
         - run:
-            name: Install datadog cli to Alpine executor
+            name: Install datadog cli to Debian executor
             command: |
               sudo apt-get update
               sudo apt-get install --no-install-recommends -y python3-dev python3-pip
