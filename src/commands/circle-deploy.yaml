@@ -29,6 +29,6 @@ parameters:
 
 steps:
   - run:
-      name: Post standard deployment event
+      name: Post standard deployment event to datadog
       command: |
         dog --api-key << parameters.datadog-api-key >> --application-key << parameters.datadog-app-key >> event post --tags {"event:deploy"} "Deployment" "<< parameters.message >>"

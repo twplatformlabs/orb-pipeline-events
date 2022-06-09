@@ -1,7 +1,7 @@
 # src/commands/slack-webhook.yaml
 
 description: |
-  Post message to slack via webhook.   
+  Post message to slack channel via webhook.   
 
 parameters:
 
