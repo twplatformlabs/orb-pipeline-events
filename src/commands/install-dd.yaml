@@ -32,7 +32,6 @@ steps:
             name: Install datadog cli to Alpine executor
             command: |
               sudo apk add --no-cache python3
-              sudo python3 -m ensurepip
               sudo ln -s /usr/bin/pip3 /usr/bin/pip
               sudo ln -s /usr/bin/pydoc3 /usr/bin/pydoc
               sudo ln -s /usr/bin/python3 /usr/bin/python
