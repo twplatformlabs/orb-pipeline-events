@@ -16,7 +16,7 @@ parameters:
 steps:
   - when:
       condition:
-        equals: [ << parameters.os >>, "Alpine" ]
+        equal: [ "Alpine", << parameters.os >> ]
       steps:
         - run:
             name: Install datadog cli to Alpine executor
@@ -32,7 +32,7 @@ steps:
               dog --version
   - when:
       condition:
-        equals: [ << parameters.os >>, "Debian" ]
+        equal: [ "Debian", << parameters.os >> ]
       steps:
         - run:
             name: Install datadog cli to Debian executor
