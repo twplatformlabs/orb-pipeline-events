@@ -58,7 +58,25 @@ parameters:
     type: string
     default: "default message: ${CIRCLE_BUILD_URL}"
 
+  datadog-api-key:
+    description: Setup ~/.dogrc  Default is $DATADODG_API_KEY
+    type: string
+    default: $DATADOG_API_KEY
+
+  datadog-app-key:
+    description: Setup ~/.dogrc  Default is $DATADODG_APP_KEY
+    type: string
+    default: $DATADOG_APP_KEY
+    
 steps:
+  - run:
+      name: setup .dogrc
+      command: |
+        cat \<<EOF > ~/.dogrc
+        [Connection]
+        apikey = << parameters.datadog-api-key >>
+        appkey = << parameters.datadog-api-key >>
+        EOF
   - run:
       name: Post datadog event
       command: |

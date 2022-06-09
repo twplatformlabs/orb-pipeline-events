@@ -17,8 +17,25 @@ parameters:
     type: string
     default: "[${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} sha:${CIRCLE_SHA1}\n${CIRCLE_BUILD_URL}" 
 
-steps:
+  datadog-api-key:
+    description: Setup ~/.dogrc  Default is $DATADODG_API_KEY
+    type: string
+    default: $DATADOG_API_KEY
 
+  datadog-app-key:
+    description: Setup ~/.dogrc  Default is $DATADODG_APP_KEY
+    type: string
+    default: $DATADOG_APP_KEY
+    
+steps:
+  - run:
+      name: setup .dogrc
+      command: |
+        cat \<<EOF > ~/.dogrc
+        [Connection]
+        apikey = << parameters.datadog-api-key >>
+        appkey = << parameters.datadog-api-key >>
+        EOF
   - run:
       name: Post standard deployment event
       command: |
