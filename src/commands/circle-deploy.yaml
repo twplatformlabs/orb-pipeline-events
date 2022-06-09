@@ -28,10 +28,10 @@ parameters:
     default: $DATADOG_APP_KEY
 
 steps:
-  - setup-dd-credentials:
-      datadog-api-key: << parameters.datadog-api-key >>
-      datadog-app-key: << parameters.datadog-app-key >>
+  # - setup-dd-credentials:
+  #     datadog-api-key: << parameters.datadog-api-key >>
+  #     datadog-app-key: << parameters.datadog-app-key >>
   - run:
       name: Post standard deployment event
       command: |
-        dog event post --tags {"event:deploy"} "Deployment" "<< parameters.message >>"
+        dog event post --api-key << parameters.datadog-api-key >> --application-key << parameters.datadog-app-key >> --tags {"event:deploy"} "Deployment" "<< parameters.message >>"

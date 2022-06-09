@@ -69,14 +69,13 @@ parameters:
     default: $DATADOG_APP_KEY
 
 steps:
-  - setup-dd-credentials:
-      datadog-api-key: << parameters.datadog-api-key >>
-      datadog-app-key: << parameters.datadog-app-key >>
+  # - setup-dd-credentials:
+  #     datadog-api-key: << parameters.datadog-api-key >>
+  #     datadog-app-key: << parameters.datadog-app-key >>
   - run:
       name: Post datadog event
       command: |
-        dog event post \
-          --tags << parameters.tags >> \
+        dog event post --api-key << parameters.datadog-api-key >> --application-key << parameters.datadog-app-key >> \
           <<#parameters.date-happened>>--date_happened << parameters.date-happened >> <</parameters.date-happened>> \ 
           <<#parameters.handle>>--handle << parameters.handle >> <</parameters.handle>> \
           --priority  << parameters.priority >> \
@@ -88,5 +87,5 @@ steps:
           <<#parameters.aggregation-key>>--aggregation_key << parameters.aggregation-key >> <</parameters.aggregation-key>> \
           <<#parameters.event-type>>--type << parameters.event-type >> <</parameters.event-type>> \
           --alert_type << parameters.alert-type >> \
-          << parameters.title >> << parameters.message >>
+          "<< parameters.title >>" "<< parameters.message >>"
           
