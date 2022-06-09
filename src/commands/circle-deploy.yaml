@@ -6,7 +6,7 @@ description: |
   Fromat is:
     - title: Deployment
     - tags: { "event:deploy" }
-    - message: 
+    - message: [${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} sha:${CIRCLE_SHA1} ${CIRCLE_BUILD_URL}
 
     you can override the default message.  
 
@@ -15,7 +15,7 @@ parameters:
   message:
     description: Event message
     type: string
-    default: "[${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} sha:${CIRCLE_SHA1}\n${CIRCLE_BUILD_URL}" 
+    default: "[${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} sha:${CIRCLE_SHA1} ${CIRCLE_BUILD_URL}" 
 
   datadog-api-key:
     description: Setup ~/.dogrc  Default is $DATADODG_API_KEY
