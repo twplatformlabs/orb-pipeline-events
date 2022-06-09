@@ -18,4 +18,4 @@ steps:
   - run:
       name: Post webhook channel message to slack
       command: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":<< parameters.message >>}' << parameters.webhook-url >>
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"<< parameters.message >>"}' << parameters.webhook-url >>
