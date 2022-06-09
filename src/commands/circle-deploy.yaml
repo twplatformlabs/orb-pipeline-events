@@ -6,7 +6,7 @@ description: |
   Fromat is:
     - title: Deployment
     - tags: { "event:deploy" }
-    - message: CIRCLE_USERNAME CIRCLE_TAG CIRCLE_SHA1 CIRCLE_PROJECT_REPONAME CIRCLE_JOB CIRCLE_BUILD_URL CIRCLE_BUILD_NUM
+    - message: 
 
     you can override the default message.  
 
@@ -15,7 +15,7 @@ parameters:
   message:
     description: Event message
     type: string
-    default: "[${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} ${CIRCLE_SHA1}\n${CIRCLE_BUILD_URL}" 
+    default: "[${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} sha:${CIRCLE_SHA1}\n${CIRCLE_BUILD_URL}" 
 
 steps:
 
@@ -23,4 +23,4 @@ steps:
       name: Post standard deployment event
       command: |
         dog event post \
-          --tags { "event:deploy" } "Deployment" << parameters.message >>
+          --tags { "event:deploy" } "Deployment" "<< parameters.message >>"
