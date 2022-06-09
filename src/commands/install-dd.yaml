@@ -23,12 +23,12 @@ steps:
             command: |
               sudo apk add --no-cache python3
               sudo python3 -m ensurepip
-              sudo pip3 install --upgrade pip
+              sudo pip3 install --upgrade pip datadog
               sudo ln -sf /usr/bin/pip3 /usr/bin/pip
               sudo ln -sf /usr/bin/pydoc3 /usr/bin/pydoc
               sudo ln -sf /usr/bin/python3 /usr/bin/python
               sudo ln -sf /usr/bin/python3-config /usr/bin/python-config
-              sudo pip install --no-binary datadog
+              # sudo pip install datadog
               dog --version
   - when:
       condition:
