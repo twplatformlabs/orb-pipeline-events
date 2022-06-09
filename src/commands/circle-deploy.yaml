@@ -34,4 +34,4 @@ steps:
   - run:
       name: Post standard deployment event
       command: |
-        dog event post --api-key << parameters.datadog-api-key >> --application-key << parameters.datadog-app-key >> --tags {"event:deploy"} "Deployment" "<< parameters.message >>"
+        dog --api-key << parameters.datadog-api-key >> --application-key << parameters.datadog-app-key >> event post --tags {"event:deploy"} "Deployment" "<< parameters.message >>"
