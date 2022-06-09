@@ -41,7 +41,7 @@ parameters:
     description: Freeform string
     type: string
     default: "" 
-  type: 
+  event-type: 
     description: Event type. Freeform string.
     type: string
     default: "" 
@@ -73,7 +73,7 @@ steps:
           <<#parameters.no-host>>--no_host \<</parameters.no-host>>
           <<#parameters.device>>--device << parameters.device >> \<</parameters.device>>
           <<#parameters.aggregation-key>>--aggregation_key << parameters.aggregation-key >> \<</parameters.aggregation-key>>
-          <<#parameters.type>>--type << parameters.type >> \<</parameters.type>>
+          <<#parameters.event-type>>--type << parameters.event-type >> \<</parameters.event-type>>
           --alert_type << parameters.alert-type >> \
           << parameters.title >> << parameters.message >>
           
