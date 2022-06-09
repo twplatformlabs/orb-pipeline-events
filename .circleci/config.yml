@@ -63,7 +63,7 @@ workflows:
           requires:
             - approve-release
 
-  promote-orb-tools:
+  promote-orb-pipeline-events:
     jobs:
       # patch, minor, or major publishing, depending on which orb source
       # files have been modified (that logic lives in the
@@ -72,7 +72,7 @@ workflows:
           name: patch-release
           context: twdps-orb-authors
           release: patch
-          orb-name: twdps/executor-tools
+          orb-name: twdps/pipeline-events
           ssh-fingerprints: $SVC_FINGERPRINT
           filters: *patch-tag-publish-filter
 
@@ -80,7 +80,7 @@ workflows:
           name: minor-release
           context: twdps-orb-authors
           release: minor
-          orb-name: twdps/executor-tools
+          orb-name: twdps/pipeline-events
           ssh-fingerprints: $SVC_FINGERPRINT
           filters: *minor-tag-publish-filter
 
@@ -88,7 +88,7 @@ workflows:
           name: major-release
           context: twdps-orb-authors
           release: major
-          orb-name: twdps/executor-tools
+          orb-name: twdps/pipeline-events
           ssh-fingerprints: $SVC_FINGERPRINT
           filters: *major-tag-publish-filter
 
