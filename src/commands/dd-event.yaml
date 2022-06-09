@@ -67,16 +67,11 @@ parameters:
     description: Setup ~/.dogrc  Default is $DATADODG_APP_KEY
     type: string
     default: $DATADOG_APP_KEY
-    
+
 steps:
-  - run:
-      name: setup .dogrc
-      command: |
-        cat \<<EOF > ~/.dogrc
-        [Connection]
-        apikey = << parameters.datadog-api-key >>
-        appkey = << parameters.datadog-api-key >>
-        EOF
+  - setup-dd-credentials:
+      datadog-api-key: << parameters.datadog-api-key >>
+      datadog-app-key: << parameters.datadog-app-key >>
   - run:
       name: Post datadog event
       command: |

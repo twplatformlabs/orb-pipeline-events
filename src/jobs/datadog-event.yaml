@@ -110,7 +110,8 @@ parameters:
 steps:
   - checkout
   - setup_remote_docker
-  - install-dd
+  - install-dd:
+      os: <<parameters.os >>
         
   - when:
       name: Run before-event lifecycle hook steps.
