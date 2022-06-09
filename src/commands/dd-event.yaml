@@ -64,16 +64,16 @@ steps:
       command: |
         dog event post \
           --tags << parameters.tags >> \
-          <<#parameters.date-happened>>--date_happened  << parameters.date-happened >> \<</parameters.date-happened>>
-          <<#parameters.handle>>--handle << parameters.handle >> \<</parameters.handle>>
+          <<#parameters.date-happened>>--date_happened << parameters.date-happened >> <</parameters.date-happened>> \ 
+          <<#parameters.handle>>--handle << parameters.handle >> <</parameters.handle>> \
           --priority  << parameters.priority >> \
-          <<#parameters.related-event-id>>----related_event_id << parameters.related-event-id >> \<</parameters.related-event-id>>
-          <<#parameters.tags>>--tags << parameters.tags >> \<</parameters.tags>>
-          <<#parameters.host>>--host << parameters.host >> \<</parameters.host>>
-          <<#parameters.no-host>>--no_host \<</parameters.no-host>>
-          <<#parameters.device>>--device << parameters.device >> \<</parameters.device>>
-          <<#parameters.aggregation-key>>--aggregation_key << parameters.aggregation-key >> \<</parameters.aggregation-key>>
-          <<#parameters.event-type>>--type << parameters.event-type >> \<</parameters.event-type>>
+          <<#parameters.related-event-id>>----related_event_id << parameters.related-event-id >> <</parameters.related-event-id>> \
+          <<#parameters.tags>>--tags << parameters.tags >> <</parameters.tags>> \
+          <<#parameters.host>>--host << parameters.host >> <</parameters.host>> \
+          <<#parameters.no-host>>--no_host <</parameters.no-host>> \
+          <<#parameters.device>>--device << parameters.device >> <</parameters.device>> \
+          <<#parameters.aggregation-key>>--aggregation_key << parameters.aggregation-key >> <</parameters.aggregation-key>> \
+          <<#parameters.event-type>>--type << parameters.event-type >> <</parameters.event-type>> \
           --alert_type << parameters.alert-type >> \
           << parameters.title >> << parameters.message >>
           
