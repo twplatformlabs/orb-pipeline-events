@@ -1,0 +1,30 @@
+# src/executors/circleci-base-image.yaml
+
+description: >
+  By default, orb-pipeline-events uses the alpine based dps circleci-base-image
+  convenience image.
+
+  Packages that typically fall into this set of base team executor requirements include things like:  
+  - USER definition and filesystem customization  
+  - tool for accessing secrets (such as Vault, chamber, 1password)  
+  - standard shell (bash, zsh)  
+  - multi-language support (locales)  
+
+  https://hub.docker.com/repository/docker/twdps/circleci-base-image
+
+parameters:
+
+  image:
+    description: specify circleci docker executor
+    type: string
+    default: docker.io/twdps/circleci-base-image:alpine-stable
+
+  resource-class:
+    description: specify the resouce class for the image
+    type: enum
+    enum: [small, medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+
+resource_class: << parameters.resource-class >>
+
+docker:
+  - image: << parameters.image >>

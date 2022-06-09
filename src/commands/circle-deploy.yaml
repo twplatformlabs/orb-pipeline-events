@@ -1,0 +1,26 @@
+# src/commands/dd-deploy.yaml
+
+description: |
+  Send pre-formated, deployment event to be used as universal time-series overlay.
+
+  Fromat is:
+    - title: Deployment
+    - tags: { "event:deploy" }
+    - message: CIRCLE_USERNAME CIRCLE_TAG CIRCLE_SHA1 CIRCLE_PROJECT_REPONAME CIRCLE_JOB CIRCLE_BUILD_URL CIRCLE_BUILD_NUM
+
+    you can override the default message.  
+
+parameters:
+
+  message:
+    description: Event message
+    type: string
+    default: "[${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} ${CIRCLE_SHA1}\n${CIRCLE_BUILD_URL}" 
+
+steps:
+
+  - run:
+      name: Post standard deployment event
+      command: |
+        dog event post \
+          --tags << parameters.tags >> "Deployment" << parameters.message >>

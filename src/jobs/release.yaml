@@ -1,0 +1,84 @@
+# src/jobs/release.yaml
+
+description: |
+  Create release via github-release-notes, as stand alone job. 
+
+executor:
+  name: circleci-base-image
+  image: << parameters.executor-image-name >>
+  resource-class: << parameters.executor-resource-class >>
+shell: << parameters.shell >>
+
+parameters:
+
+  shell:
+    description: default shell invocation. Override to support different shells or tools like secrethub.io
+    type: string
+    default: /bin/sh -eo pipefail
+
+  executor-image-name:
+    description: specify machine executor
+    type: string
+    default: twdps/circleci-base-image:alpine-stable
+
+  executor-resource-class:
+    description: specify executor resource class. Default is medium.
+    type: enum
+    enum: [small, medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+    default: medium
+
+  os:
+    description: use a supported executor including automatic gren configuration or specify a custom image
+    type: enum
+    enum: ["Alpine","Custom"]
+    default: Alpine
+
+  release:
+    description: generate release notes
+    type: boolean
+    default: true
+
+  on-tag:
+    description: generate release notes based on changes between last ne previous tag
+    type: boolean
+    default: false
+
+  extra-release-args:
+    description: Extra flags to pass to gren
+    type: string
+    default: ""
+
+  before-release:
+    description: Optional steps to prior to gren release.
+    type: steps
+    default: []
+
+  after-release:
+    description: Optional steps to run after gren release.
+    type: steps
+    default: []
+
+steps:
+  - checkout
+  - setup_remote_docker
+  - when:
+      condition:
+        equal: [ << parameters.os >>, "Alpine" ]
+      steps:
+        - run:
+            name: install github-release-notes
+            command: |
+              sudo apk add --no-cache nodejs npm
+              sudo npm install -g github-release-notes
+  - when:
+      name: Run before-release lifecycle hook steps.
+      condition: << parameters.before-release >>
+      steps: << parameters.before-release >>
+  - release-notes:
+      release: << parameters.release >>
+      on-tag: << parameters.on-tag >>
+      extra-release-args: << parameters.extra-release-args >>
+  - when:
+      name: Run after_release lifecycle hook steps.
+      condition: << parameters.after-release >>
+      steps: << parameters.after-release >>

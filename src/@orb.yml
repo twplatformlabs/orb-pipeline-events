@@ -1,0 +1,14 @@
+---
+version: 2.1
+
+description: |
+  Set of common pipeline events.  
+
+  Available options include:
+
+  - dd-deploy.  Send deploy event to datadog; for use in marking deployments on time-series widgets.  
+  - dd-event. Send custom event to datadog.  
+  - release. Create github release with notes using github-release-notes npm tool.  
+
+display:
+  source_url: "https://github.com/ThoughtWorks-DPS/orb-pipeline-events"

@@ -1,0 +1,127 @@
+# src/jobs/datadog-event.yaml
+
+description: |
+  Send custom events to datadog 
+
+executor:
+  name: circleci-base-image
+  image: << parameters.executor-image-name >>
+  resource-class: << parameters.executor-resource-class >>
+shell: << parameters.shell >>
+
+parameters:
+
+  shell:
+    description: default shell invocation. Override to support different shells or tools like secrethub.io
+    type: string
+    default: /bin/sh -eo pipefail
+
+  executor-image-name:
+    description: specify machine executor
+    type: string
+    default: twdps/circleci-base-image:alpine-stable
+
+  executor-resource-class:
+    description: specify executor resource class. Default is medium.
+    type: enum
+    enum: [small, medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+    default: medium
+
+  os:
+    description: use a supported executor including automatic gren configuration or specify a custom image
+    type: enum
+    enum: ["Alpine","Custom"]
+    default: Alpine
+
+  # dog cli custom event parameters
+  date-happened:
+    description: POSIX timestamp for the event. Default is current time.
+    type: string
+    default: "" 
+  handle:
+    description: Post event as coming from this user. Default is api user.
+    type: string
+    default: "" 
+  priority:
+    description: Normal or low priority. Default is normal.
+    type: string
+    default: normal
+  related-event-id:
+    description: Set to the id of another event to mark this event as a child.
+    type: string
+    default: ""
+  tags:
+    description: Comma delimited, bracketed, list of tags. E.g., { "tag:value", "tag:value" }
+    type: string
+    default: "" 
+  host:
+    description: Host name for poster of event. Default is localhost.
+    type: string
+    default: "" 
+  no-host:
+    description: Override host and set none.
+    type: boolean
+    default: false
+  device:
+    description: Freeform string.
+    type: string
+    default: "" 
+  aggregation-key:
+    description: Freeform string
+    type: string
+    default: "" 
+  type: 
+    description: Event type. Freeform string.
+    type: string
+    default: "" 
+  alert-type:
+    description: error, warning, info, success. Default is info
+    type: string
+    default: info
+  title:
+    description: Event title.
+    type: string
+    default: "Pipeline Event"
+  message:
+    description: Event message
+    type: string
+    default: "" 
+
+  before-event:
+    description: Optional steps to prior to sending datadog event.
+    type: steps
+    default: []
+
+  after-event:
+    description: Optional steps to run after sending datadog event.
+    type: steps
+    default: []
+
+steps:
+  - checkout
+  - setup_remote_docker
+  - install-dd
+        
+  - when:
+      name: Run before-event lifecycle hook steps.
+      condition: << parameters.before-event >>
+      steps: << parameters.before-event >>
+  - steps:
+      dd-event:
+        - date-happened: << parameters.date-happened >>
+        - handle: << parameters.handle >>
+        - priority: << parameters.priority >>
+        - related-event-id: << parameters.related-event-id >>
+        - tags: << parameters.tags >>
+        - hosts: << parameters.hosts >>
+        - no-host: << parameters.no-host >>
+        - device: << parameters.device >>
+        - aggregation-key: << parameters.aggregation-key >>
+        - type:  << parameters.type >>
+        - alert-type: << parameters.alert-type >>
+        - title: << parameters.title >>
+        - message: << parameters.message >>
+  - when:
+      name: Run after-event lifecycle hook steps.
+      condition: << parameters.after-event >>
+      steps: << parameters.after-event >>
