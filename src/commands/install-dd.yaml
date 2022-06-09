@@ -58,7 +58,7 @@ steps:
   - run:
       name: setup .dogrc
       command: |
-        cat <<EOF > ~/.dogrc
+        cat \<<EOF > ~/.dogrc
         [Connection]
         apikey = << parameters.datadog-api-key >>
         appkey = << parameters.datadog-api-key >>
