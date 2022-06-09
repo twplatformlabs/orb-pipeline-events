@@ -1,0 +1,21 @@
+# src/commands/slack-webhook.yaml
+
+description: |
+  Post message to slack via webhook.   
+
+parameters:
+
+  message:
+    description: Event message
+    type: string
+    default: "unconfigured message: [${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} sha:${CIRCLE_SHA1} ${CIRCLE_BUILD_URL}" 
+
+  webhook-url:
+    description: channel webhook url used to send message
+    type: string
+
+steps:
+  - run:
+      name: Post webhook channel message to slack
+      command: |
+        curl -X POST -H 'Content-type: application/json' --data '{"text":<< parameters.message >>}' << parameters.webhook-url >>
