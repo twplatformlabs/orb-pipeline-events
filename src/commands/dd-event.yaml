@@ -75,7 +75,7 @@ steps:
   - run:
       name: Post datadog event
       command: |
-        dog event post --api-key << parameters.datadog-api-key >> --application-key << parameters.datadog-app-key >> \
+        dog --api-key << parameters.datadog-api-key >> --application-key << parameters.datadog-app-key >> event post \
           <<#parameters.date-happened>>--date_happened << parameters.date-happened >> <</parameters.date-happened>> \ 
           <<#parameters.handle>>--handle << parameters.handle >> <</parameters.handle>> \
           --priority  << parameters.priority >> \
