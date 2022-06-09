@@ -107,19 +107,19 @@ steps:
       condition: << parameters.before-event >>
       steps: << parameters.before-event >>
   - dd-event:
-      - date-happened: << parameters.date-happened >>
-      - handle: << parameters.handle >>
-      - priority: << parameters.priority >>
-      - related-event-id: << parameters.related-event-id >>
-      - tags: << parameters.tags >>
-      - host: << parameters.host >>
-      - no-host: << parameters.no-host >>
-      - device: << parameters.device >>
-      - aggregation-key: << parameters.aggregation-key >>
-      - event-type:  << parameters.event-type >>
-      - alert-type: << parameters.alert-type >>
-      - title: << parameters.title >>
-      - message: << parameters.message >>
+      date-happened: << parameters.date-happened >>
+      handle: << parameters.handle >>
+      priority: << parameters.priority >>
+      related-event-id: << parameters.related-event-id >>
+      tags: << parameters.tags >>
+      host: << parameters.host >>
+      no-host: << parameters.no-host >>
+      device: << parameters.device >>
+      aggregation-key: << parameters.aggregation-key >>
+      event-type:  << parameters.event-type >>
+      alert-type: << parameters.alert-type >>
+      title: << parameters.title >>
+      message: << parameters.message >>
   - when:
       name: Run after-event lifecycle hook steps.
       condition: << parameters.after-event >>
