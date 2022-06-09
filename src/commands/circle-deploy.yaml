@@ -34,4 +34,4 @@ steps:
   - run:
       name: Post standard deployment event
       command: |
-        dog event post --tags {"event:deploy"} "Deployment" << parameters.message >>
+        dog event post --tags {"event:deploy"} "Deployment" "<< parameters.message >>""
