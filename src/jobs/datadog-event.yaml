@@ -113,7 +113,7 @@ steps:
         - priority: << parameters.priority >>
         - related-event-id: << parameters.related-event-id >>
         - tags: << parameters.tags >>
-        - hosts: << parameters.hosts >>
+        - host: << parameters.host >>
         - no-host: << parameters.no-host >>
         - device: << parameters.device >>
         - aggregation-key: << parameters.aggregation-key >>
