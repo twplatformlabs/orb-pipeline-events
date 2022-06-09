@@ -24,10 +24,10 @@ steps:
               sudo apk add --no-cache python3
               sudo python3 -m ensurepip
               sudo pip3 install --upgrade pip
-              sudo ln -s /usr/bin/pip3 /usr/bin/pip
-              sudo ln -s /usr/bin/pydoc3 /usr/bin/pydoc
-              sudo ln -s /usr/bin/python3 /usr/bin/python
-              sudo ln -s /usr/bin/python3-config /usr/bin/python-config
+              sudo ln -sf /usr/bin/pip3 /usr/bin/pip
+              sudo ln -sf /usr/bin/pydoc3 /usr/bin/pydoc
+              sudo ln -sf /usr/bin/python3 /usr/bin/python
+              sudo ln -sf /usr/bin/python3-config /usr/bin/python-config
               sudo pip install --no-binary datadog
               dog --version
   - when:
@@ -39,9 +39,9 @@ steps:
             command: |
               sudo apt-get update
               sudo apt-get install --no-install-recommends -y python3-dev python3-pip
-              sudo ln -s /usr/bin/pydoc3 /usr/bin/pydoc
-              sudo ln -s /usr/bin/python3 /usr/bin/python
-              sudo ln -s /usr/bin/python3-config /usr/bin/python-config
+              sudo ln -sf /usr/bin/pydoc3 /usr/bin/pydoc
+              sudo ln -sf /usr/bin/python3 /usr/bin/python
+              sudo ln -sf /usr/bin/python3-config /usr/bin/python-config
               sudo pip install --no-binary datadog
               dog --version
 
