@@ -69,9 +69,6 @@ parameters:
     default: $DATADOG_APP_KEY
 
 steps:
-  # - setup-dd-credentials:
-  #     datadog-api-key: << parameters.datadog-api-key >>
-  #     datadog-app-key: << parameters.datadog-app-key >>
   - run:
       name: Post datadog event
       command: |
