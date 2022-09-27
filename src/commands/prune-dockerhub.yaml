@@ -49,13 +49,13 @@ steps:
   - run:
       name: search image list for desired tags
       command: |
-        cat all_images.json | jq -r '.results | .[] | select(.name | contains ("<< parameters.filter >>")) | .name' > dev_tags
+        cat all_images.json | jq -r '.results | .[] | select(.name | contains ("<< parameters.tag-filter >>")) | .name' > dev_tags
   - run:
       name: delete results of image search
       command: |
         export TOKEN=$(cat token.jwt)
         while read TAG; do
-            curl "https://hub.docker.com/v2/repositories/twdps/certificate-init-container/tags/${TAG}/" \
+            curl "https://hub.docker.com/v2/repositories/twdps/<< parameters.repository >>/tags/${TAG}/" \
                   -X DELETE \
                   -H "Authorization: JWT ${TOKEN}"
         done < dev_tags
