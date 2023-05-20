@@ -14,15 +14,15 @@ description: >
 
 parameters:
 
-  image:
-    description: specify circleci docker executor
-    type: string
-    default: docker.io/twdps/circleci-base-image:alpine-stable
-
   resource-class:
     description: specify the resouce class for the image
     type: enum
     enum: [small, medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+
+  image:
+    description: specify circleci docker executor
+    type: string
+    default: docker.io/twdps/circleci-base-image:alpine-stable
 
 resource_class: << parameters.resource-class >>
 
