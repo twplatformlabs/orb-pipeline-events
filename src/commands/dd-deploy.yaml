@@ -1,7 +1,7 @@
 # src/commands/dd-deploy.yaml
 
 description: |
-  Send pre-formated, deployment event to be used as universal time-series overlay.
+  Send pre-formated, deployment event to DataDog to be used as universal time-series overlay.
 
   Fromat is:
     - title: Deployment
