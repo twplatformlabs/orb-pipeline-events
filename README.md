@@ -19,3 +19,9 @@ Features include:
 - post custom datadog event as a separate job
 - post standardized deploy event (useful as universal time-series overaly) as a command in current job
 - Generate release notes using github-release-notes npm tool
+
+curl --request PATCH \
+  --url https://circleci.com/api/v2/schedule/%7Bschedule-id%7D \
+  --header 'authorization: Basic REPLACE_BASIC_AUTH' \
+  --header 'content-type: application/json' \
+  --data '{"description":"string","name":"string","timetable":{"per-hour":0,"hours-of-day":[0],"days-of-week":["TUE"],"days-of-month":[0],"months":["MAR"]},"attribution-actor":"current","parameters":{"deploy_prod":true,"branch":"feature/design-new-api"}}'
