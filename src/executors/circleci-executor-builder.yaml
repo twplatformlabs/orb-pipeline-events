@@ -1,6 +1,6 @@
 # src/executors/circleci-executro-builder.yaml
 
-description: |
+description: >
   Used by certain pipeline-events jobs.
 
   https://hub.docker.com/repository/docker/twdps/circleci-executor-builder
