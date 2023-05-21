@@ -1,16 +1,16 @@
-# src/executors/circleci-base-image.yaml
+# src/executors/circleci-executro-builder.yaml
 
 description: >
   Used by certain pipeline-events jobs.
 
-  https://hub.docker.com/repository/docker/twdps/circleci-base-image
+  https://hub.docker.com/repository/docker/twdps/circleci-executor-builder
 
 parameters:
 
   image:
     description: specify circleci docker executor
     type: string
-    default: docker.io/twdps/circleci-base-image:alpine-stable
+    default: docker.io/twdps/circleci-executor-builder:alpine-stable
 
   resource-class:
     description: specify the resouce class for the image

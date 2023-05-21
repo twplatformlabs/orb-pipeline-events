@@ -1,9 +1,30 @@
-# src/commands/scheduled-job.yaml
+# src/jobs/schedule-pipeline.yaml
 
-description: |
-  Configure a scheduled job via the circleci api
+description: Configure circleci pipeline trigger, as stand alone job. 
+
+executor:
+  name: circleci-executor-builder
+  image: << parameters.executor-image-name >>
+  resource-class: << parameters.executor-resource-class >>
+shell: << parameters.shell >>
 
 parameters:
+
+  shell:
+    description: default shell invocation. Override to support different shells or tools like 1password-cli
+    type: string
+    default: /bin/sh -eo pipefail
+
+  executor-image-name:
+    description: specify machine executor
+    type: string
+    default: twdps/circleci-executor-builder:alpine-stable
+
+  executor-resource-class:
+    description: specify executor resource class. Default is medium.
+    type: enum
+    enum: [small, medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+    default: medium
 
   circle-token:
     type: env_var_name
@@ -66,18 +87,35 @@ parameters:
     type: string
     default: "{ \"branch\": \"main\" }"
 
+  before-release:
+    description: Optional steps to prior to gren release.
+    type: steps
+    default: []
+
+  after-release:
+    description: Optional steps to run after gren release.
+    type: steps
+    default: []
+
 steps:
-  - run:
-      name: create or update circleci scheduled pipeline
-      environment:
-        PROJECT_SLUG: "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
-        SCHEDULED_PIPELINE_NAME: << parameters.scheduled-pipeline-name >>
-        SCHEDULED_PIPELINE_DESCRIPTION: << parameters.scheduled-pipeline-description >>
-        PER_HOUR: << parameters.per-hour >>
-        HOURS_OF_DAY: << parameters.hours-of-day >>
-        DAYS_OF_WEEK: << parameters.days-of-week >>
-        DAYS_OF_MONTH: << parameters.days-of-month >>
-        MONTHS: << parameters.months >>
-        ATTRIBUTION_ACTOR: << parameters.attribution-actor >>
-        PIPELINE_PARAMETERS: << parameters.pipeline-parameters >>
-      command: <<include(scripts/circleci-scheduled-pipeline.sh)>>
+  - checkout
+  - setup_remote_docker
+  - when:
+      name: Run before-release lifecycle hook steps.
+      condition: << parameters.before-release >>
+      steps: << parameters.before-release >>
+  - trigger:
+      circle-token: << parameters.circle-token >>
+      scheduled-pipeline-name: << parameters.scheduled-pipeline-name >>
+      scheduled-pipeline-description: << parameters.scheduled-pipeline-description >>
+      per-hour: << parameters.per-hour >>
+      hours-of-day: << parameters.hours-of-day >>
+      days-of-week: << parameters.days-of-week >>
+      days-of-month: << parameters.days-of-month >>
+      months: << parameters.months >>
+      attribution-actor: << parameters.attribution-actor >>
+      pipeline-parameters: << parameters.pipeline-parameters >>
+  - when:
+      name: Run after_release lifecycle hook steps.
+      condition: << parameters.after-release >>
+      steps: << parameters.after-release >>

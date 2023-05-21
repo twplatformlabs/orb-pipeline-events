@@ -1,0 +1,83 @@
+# src/commands/trigger.yaml
+
+description: |
+  Configure a scheduled job via the circleci api
+
+parameters:
+
+  circle-token:
+    type: env_var_name
+    default: CIRCLE_TOKEN
+
+  scheduled-pipeline-name:
+    description: name of scheduled job
+    type: string
+
+  scheduled-pipeline-description:
+    type: string
+    default: ""
+
+  per-hour:
+    description: number of times per hour to run the job
+    type: integer
+    default: 1
+
+  hours-of-day:
+    description: |
+      array of numbers, passed as a string, indicating which hours during the day the scheduled job should run; in UTC time.
+      E.g., '[4, 15]' means at 4am and 3pm UTC.
+    type: string
+
+  days-of-week:
+    description: |
+      array of day abbreviations, passed as a string, indicating which days of the week the scheduled job should run.
+      E.g., '["SUN","WED"]' means every Sunday and Wednesday.
+      (Must use either days-of-week or days-of-month, not both)
+    type: string
+    default: "[]"
+
+  days-of-month:
+    description: |
+      array of day numbers, passed as a string, indicating which days of the month the scheduled job should run.
+      E.g., '[1,15]' means the 1st and 15th of each month.
+      (Must use either days-of-week or days-of-month, not both)
+    type: string
+    default: "[]"
+
+  months:
+    description: |
+      array of month name abbreviations, passed as a string, indicating which month the scheduled job should run. Default is all.
+      E.g., '["JAN","APR","JUL","OCT"]' means the last month of each quarter.
+      (Optional)
+    type: string
+    default: "[]"
+
+  attribution-actor:
+    description: |
+      Designation of the identity assumed by the scheduled job.
+      "system" results in org general system level id (can perform all tasks).
+      "current" uses the id of the api-token used to schedule the job. If you provide a machine-account token when running
+      this command then it will appear as that machine-user running all subsequent scheduled jobs.
+    type: string
+    default: "current"
+
+  pipeline-parameters:
+    description: map of parameters to pass to the pipeline. Must include at least the branch.
+    type: string
+    default: "{ \"branch\": \"main\" }"
+
+steps:
+  - run:
+      name: create or update circleci scheduled pipeline
+      environment:
+        PROJECT_SLUG: "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+        SCHEDULED_PIPELINE_NAME: << parameters.scheduled-pipeline-name >>
+        SCHEDULED_PIPELINE_DESCRIPTION: << parameters.scheduled-pipeline-description >>
+        PER_HOUR: << parameters.per-hour >>
+        HOURS_OF_DAY: << parameters.hours-of-day >>
+        DAYS_OF_WEEK: << parameters.days-of-week >>
+        DAYS_OF_MONTH: << parameters.days-of-month >>
+        MONTHS: << parameters.months >>
+        ATTRIBUTION_ACTOR: << parameters.attribution-actor >>
+        PIPELINE_PARAMETERS: << parameters.pipeline-parameters >>
+      command: <<include(scripts/circleci-scheduled-pipeline.sh)>>
