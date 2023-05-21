@@ -13,7 +13,7 @@ parameters:
   shell:
     description: default shell invocation. Override to support different shells or tools like secrethub.io
     type: string
-    default: /bin/sh -eo pipefail
+    default: /bin/bash -eo pipefail
 
   executor-image-name:
     description: specify machine executor
