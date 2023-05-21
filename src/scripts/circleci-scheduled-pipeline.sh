@@ -47,8 +47,7 @@ if [[ $NUM_SCHEDULED_PIPELINES -gt 0 ]]; then
     done
 fi
 
-#if [[ $SCHEDULED_PIPELINE_ID ]]; then
-if [[ $SCHEDULED_PIPELINE_ID = "12" ]]; then
+if [[ $SCHEDULED_PIPELINE_ID ]]; then
     echo "$SCHEDULED_PIPELINE_NAME exists ($SCHEDULED_PIPELINE_ID), patching for modified parameters"
     PROJECTAPI_URL="https://circleci.com/api/v2/schedule/$SCHEDULED_PIPELINE_ID"
     RESULT=$(curl --location --request PATCH $PROJECTAPI_URL \
