@@ -1,7 +1,6 @@
 # src/commands/trigger.yaml
 
-description: |
-  Configure a scheduled job via the circleci api
+description: Configure a scheduled trigger for a project pipeline
 
 parameters:
 

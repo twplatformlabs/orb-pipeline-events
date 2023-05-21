@@ -1,6 +1,6 @@
 # src/executors/circleci-base-image.yaml
 
-description: >
+description: |
   Used by certain pipeline-events jobs.
 
   https://hub.docker.com/repository/docker/twdps/circleci-base-image

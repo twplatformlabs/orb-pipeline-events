@@ -1,6 +1,6 @@
 # src/jobs/release.yaml
 
-description: Create release via github-release-notes, as stand alone job. 
+description: Generate GitHub release using github-release-notes, as stand alone job. 
 
 executor:
   name: circleci-base-image
