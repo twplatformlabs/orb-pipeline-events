@@ -1,7 +1,6 @@
 # src/jobs/schedule-pipeline.yaml
 
-description: |
-  Schedule automated pipeline trigger, as stand alone job. 
+description: Schedule automated pipeline trigger, as stand alone job. 
 
 executor:
   name: circleci-executor-builder
