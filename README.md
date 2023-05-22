@@ -12,16 +12,19 @@
 
 See [orb registry](https://circleci.com/developer/orbs/orb/twdps/pipeline-events) for detailed usage examples
 
-Features include:
+  Available options include:
 
-- install datadog cli
-- post custom datadog event as a command in current job
-- post custom datadog event as a separate job
-- post standardized deploy event (useful as universal time-series overaly) as a command in current job
-- Generate release notes using github-release-notes npm tool
+  **Commands**
+  - dd-credentials. Setup datadog credential file  .
+  - dd-deploy. Send opinionated deploy event to datadog; for use in marking deployments on time-series widgets.  
+  - dd-install. Install datadog cli and (optionally) python3.
+  - dd-event. Send fully customizable event to datadog.  
+  - prune-dockerhub. delete specified tags from registry.
+  - release. Create github release with notes using github-release-notes npm tool. 
+  - trigger. Define circleci Scheduled Pipeline .
+  - slack-webhook. Send message to slack via slack-webhook.
+  - validate-docker-credentials. Validate credentials via login attempt.
 
-curl --request PATCH \
-  --url https://circleci.com/api/v2/schedule/%7Bschedule-id%7D \
-  --header 'authorization: Basic REPLACE_BASIC_AUTH' \
-  --header 'content-type: application/json' \
-  --data '{"description":"string","name":"string","timetable":{"per-hour":0,"hours-of-day":[0],"days-of-week":["TUE"],"days-of-month":[0],"months":["MAR"]},"attribution-actor":"current","parameters":{"deploy_prod":true,"branch":"feature/design-new-api"}}'
+  **jobs**
+  - release. Use github-release-notes to automatically generate a release.
+  - scheduled-pipeline. Configure a trigger schedule for auomatic pipeline runs.
