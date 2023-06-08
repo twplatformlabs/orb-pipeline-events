@@ -6,6 +6,9 @@ executor:
   name: circleci-executor-builder
   image: << parameters.executor-image-name >>
   resource-class: << parameters.executor-resource-class >>
+  username: << parameters.executor-registry-username >>
+  password: << parameters.executor-registry-password >>
+
 shell: << parameters.shell >>
 
 parameters:
@@ -19,6 +22,16 @@ parameters:
     description: specify machine executor
     type: string
     default: twdps/circleci-executor-builder:alpine-stable
+
+  executor-registry-username:
+    description: Environment variable to reference as username for the registry specified by executor-image-name parameter
+    type: env_var_name
+    default: DOCKER_LOGIN
+
+  executor-registry-password:
+    description: Environment variable to reference as password for the registry specified by executor-image-name parameter
+    type: env_var_name
+    default: DOCKER_PASSWORD
 
   executor-resource-class:
     description: specify executor resource class. Default is medium.
