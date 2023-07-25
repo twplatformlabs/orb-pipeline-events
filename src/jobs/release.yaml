@@ -60,6 +60,16 @@ parameters:
     type: string
     default: ""
 
+  slack-message:
+    description: send message to slack channel via webhook-url 
+    type: string
+    default: "" 
+  
+  slack-webhook-url: 
+    description: webhook url with credentials for channel message 
+    type: string
+    default: ""
+
   before-release:
     description: Optional steps to prior to gren release.
     type: steps
@@ -90,6 +100,13 @@ steps:
       release: << parameters.release >>
       on-tag: << parameters.on-tag >>
       extra-release-args: << parameters.extra-release-args >>
+  - when:
+      name: post slack channel message
+      condition: << parameters.slack-message >>
+      steps: 
+        slack-webhook: 
+          message: << parameters.slack-message >>
+          webhook-url: << parameters.slack-webhook-url >>
   - when:
       name: Run after_release lifecycle hook steps.
       condition: << parameters.after-release >>
