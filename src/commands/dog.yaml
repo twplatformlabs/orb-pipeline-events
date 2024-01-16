@@ -28,7 +28,7 @@ parameters:
   deploy-message:
     description: Event message
     type: string
-    default: "[${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} sha:${CIRCLE_SHA1} ${CIRCLE_BUILD_URL}" 
+    default: "[${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} sha:${CIRCLE_SHA1} ${CIRCLE_BUILD_URL}"
 
   custom-event:
     description: post a custom event to datadog
@@ -129,7 +129,7 @@ steps:
             name: Post datadog event
             command: |
               dog --api-key << parameters.datadog-api-key >> --application-key << parameters.datadog-app-key >> event post \
-                <<#parameters.date-happened>>--date_happened << parameters.date-happened >> <</parameters.date-happened>> \ 
+                <<#parameters.date-happened>>--date_happened << parameters.date-happened >> <</parameters.date-happened>> \
                 <<#parameters.handle>>--handle << parameters.handle >> <</parameters.handle>> \
                 --priority  << parameters.priority >> \
                 <<#parameters.related-event-id>>--related_event_id << parameters.related-event-id >> <</parameters.related-event-id>> \

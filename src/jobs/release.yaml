@@ -1,7 +1,7 @@
 # src/jobs/release.yaml
 # yamllint disable rule:line-length
 ---
-description: Generate GitHub release using github-release-notes, as a stand alone job. 
+description: Generate GitHub release using github-release-notes, as a stand alone job.
 
 executor:
   name: circleci-executor-builder
@@ -56,12 +56,12 @@ parameters:
     default: ""
 
   slack-message:
-    description: send message to slack channel via webhook-url 
+    description: send message to slack channel via webhook-url
     type: string
-    default: "" 
-  
-  slack-webhook-url: 
-    description: webhook url with credentials for channel message 
+    default: ""
+
+  slack-webhook-url:
+    description: webhook url with credentials for channel message
     type: string
     default: ""
 
@@ -94,8 +94,8 @@ steps:
   - when:
       name: post slack channel message
       condition: << parameters.slack-message >>
-      steps: 
-        slack-webhook: 
+      steps:
+        slack-webhook:
           message: << parameters.slack-message >>
           webhook-url: << parameters.slack-webhook-url >>
   - when:
