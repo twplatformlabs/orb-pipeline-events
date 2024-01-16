@@ -45,10 +45,12 @@ steps:
               equal: [<< parameters.os >>, "Ubuntu"]
             steps:
               - run:
-                  name: install op to Ubuntu-based executor
+                  name: install python to Ubuntu-based executor
                   command: |
                     sudo apt-get update
-                    sudo apt-get install --no-install-recommends -y python3-dev python3-pip
+                    sudo apt-get install --no-install-recommends -y \
+                         python3-dev=<< parameters.python-version >> \
+                         python3-pip
                     sudo ln -sf /usr/bin/pydoc3 /usr/bin/pydoc
                     sudo ln -sf /usr/bin/python3 /usr/bin/python
                     sudo ln -sf /usr/bin/python3-config /usr/bin/python-config
@@ -58,9 +60,9 @@ steps:
               equal: [<< parameters.os >>, "Alpine"]
             steps:
               - run:
-                  name: install op to Alpine-based executor
+                  name: install python to Alpine-based executor
                   command: |
-                    sudo apk add --no-cache python3
+                    sudo apk add --no-cache python3==<< parameters.python-version >>
                     sudo rm -r /usr/lib/python*/ensurepip
                     sudo pip3 install --upgrade pip
                     if [ ! -e /usr/bin/pip ]; then sudo ln -s /usr/bin/pip3 /usr/bin/pip ; fi
@@ -72,5 +74,5 @@ steps:
         - run:
             name: install datadog
             command: |
-              sudo pip install --no-binary datadog
+              sudo pip install datadog==<< parameters.datadog-version >>
               dog --version
