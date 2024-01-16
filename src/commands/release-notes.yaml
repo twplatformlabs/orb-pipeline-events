@@ -1,0 +1,41 @@
+# src/commands/release-notes.yaml
+# yamllint disable rule:line-length
+---
+description: |
+  Generate release notes using github-release-notes.
+
+  Dependencies:
+  - expects GREN_GITHUB_TOKEN
+  - use additional-args to customize default behavior
+  - use .grenrc to customize release behavior
+  - changelog behavior not supported
+
+parameters:
+
+  on-tag:
+    description: generate release notes based -t CIRCLE_TAG option
+    type: boolean
+    default: false
+
+  additional-args:
+    description: additional custom command line flags
+    type: string
+    default: ""
+
+  before-release:
+    description: Optional steps to run prior to gren release.
+    type: steps
+    default: []
+
+steps:
+
+  - when:
+      name: Run before-release lifecycle hook steps.
+      condition: << parameters.before-release >>
+      steps: << parameters.before-release >>
+  - run:
+      name: generate release notes
+      command: |
+        gren release \
+             <<#parameters.on-tag>>-t $CIRCLE_TAG<</parameters.on-tag>> \
+             <<#parameters.additional-args>><<parameters.additional-args>><</parameters.additional-args>>

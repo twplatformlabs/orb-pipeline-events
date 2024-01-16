@@ -1,5 +1,6 @@
 # src/commands/trigger.yaml
-
+# yamllint disable rule:line-length
+---
 description: Configure a scheduled trigger for a project pipeline.
 
 parameters:

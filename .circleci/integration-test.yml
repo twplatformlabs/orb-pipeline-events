@@ -29,11 +29,12 @@ jobs:
       - checkout
       - op/packages:
           op-version: 2.24.0-1
-      # - do/packages:
-      #     op-version: 2.24.0-1
-      #     opw-version: 0.1.0
+      - do/packages:
+          gren-version: 0.17.3
+          datadog-version: 0.47.0
       - op/env
       - do/set-docker-credentials
+      - do/release-notes
 
 workflows:
 
