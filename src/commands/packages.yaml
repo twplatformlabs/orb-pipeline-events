@@ -37,7 +37,7 @@ steps:
             command: sudo npm install -g github-release-notes@<< parameters.gren-version >>
   - when:
       name: install python
-      condition:  << parameters.python-version >>
+      condition: << parameters.python-version >>
       steps:
         - when:
             name: Install python to Ubuntu-based executor
