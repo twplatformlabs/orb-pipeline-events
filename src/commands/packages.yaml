@@ -34,7 +34,7 @@ steps:
       steps:
         - run:
             name: install github-release-notes
-            command: sudo npm install -g github-release-notes@<< parameters.gren-version >>
+            command: npm install -g github-release-notes@<< parameters.gren-version >>
   - when:
       name: install python
       condition: << parameters.python-version >>
