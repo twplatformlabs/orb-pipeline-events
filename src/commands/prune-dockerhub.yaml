@@ -1,15 +1,16 @@
 # src/commands/prunt-registry.yaml
-
+# yamllint disable rule:line-length
+---
 description: |
   Delete artifacts from dockerhub registry.
 
   Often a CI pipeline will need to write frequent development builds of a docker image to a
   registry as part of the development process for applications intended for deployment within
-  a kubernetes namespace.  
+  a kubernetes namespace.
 
-  A useful step upon tagging a release candidate is to remove the dev builds from the registry.  
+  A useful step upon tagging a release candidate is to remove the dev builds from the registry.
 
-  This command accepts a regex pattern for identifying the tags to be removed from the registry  
+  This command accepts a regex pattern for identifying the tags to be removed from the registry
   and will
 
 parameters:
@@ -25,7 +26,7 @@ parameters:
   registry-login:
     type: string
     default: DOCKER_LOGIN
-    
+
   registry-password:
     type: string
     default: DOCKER_PASSWORD
@@ -37,7 +38,7 @@ steps:
         curl -s -H "Content-Type: application/json" -X POST \
              -d "{\"username\": \"${<< parameters.registry-login >>}\", \"password\": \"${<< parameters.registry-password >>}\"}" \
              https://hub.docker.com/v2/users/login/ | jq -r .token > token.jwt
-  - run: 
+  - run:
       name: get all tags from specified image repository
       command: |
         export TOKEN=$(cat token.jwt)
