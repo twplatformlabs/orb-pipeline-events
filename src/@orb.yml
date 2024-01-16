@@ -20,5 +20,7 @@ description: |
   - release. Use github-release-notes to automatically generate a release.
   - scheduled-pipeline. Configure a trigger schedule for auomatic pipeline runs.
 
+    NOTE: v3.x.x is a breaking change. Review documentation in detail before upgrading.
+
 display:
   source_url: "https://github.com/ThoughtWorks-DPS/orb-pipeline-events"

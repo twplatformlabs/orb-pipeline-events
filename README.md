@@ -26,3 +26,5 @@ Available options include:
 **jobs**
 - release. Use github-release-notes to automatically generate a release.
 - scheduled-pipeline. Configure a trigger schedule for auomatic pipeline runs.
+
+NOTE: v3.x.x is a breaking change. Review documentation in detail before upgrading.
