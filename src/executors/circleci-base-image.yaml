@@ -1,5 +1,5 @@
 # src/executors/circleci-base-image.yaml
-
+---
 description: |
   Used by certain pipeline-events jobs.
 
