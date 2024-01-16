@@ -17,7 +17,6 @@ Available options include:
 **Commands**
 - packages. 
 
-
 - dd-credentials. Setup datadog credential file  .
 - dd-deploy. Send opinionated deploy event to datadog; for use in marking deployments on time-series widgets.  
 - dd-install. Install datadog cli and (optionally) python3.
@@ -26,7 +25,7 @@ Available options include:
 - release. Create github release with notes using github-release-notes npm tool. 
 - trigger. Define circleci Scheduled Pipeline .
 - slack-webhook. Send message to slack via slack-webhook.
-- validate-docker-credentials. Validate credentials via login attempt.
+- set-docker-credentials. Validate credentials via login attempt.
 
 **jobs**
 - release. Use github-release-notes to automatically generate a release.

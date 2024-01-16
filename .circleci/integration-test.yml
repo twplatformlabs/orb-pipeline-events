@@ -1,0 +1,41 @@
+---
+version: 2.1
+
+orbs:
+  do: twdps/pipeline-events@dev:<<pipeline.git.revision>>
+  op: twdps/onepassword@2.0.1
+
+globals:
+  - &context orb-publishing
+
+commands:
+
+  echo-message:
+    parameters:
+      msg:
+        type: string
+    steps:
+      - run:
+          name: echo msg
+          command: echo "<< parameters.msg >>"
+
+jobs:
+
+  test pipeline events:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: medium
+    steps:
+      - checkout
+      # - do/packages:
+      #     op-version: 2.24.0-1
+      #     opw-version: 0.1.0
+      - op/env
+      - do/set-docker-credentials
+
+workflows:
+
+  integration tests:
+    jobs:
+      - test pipeline events:
+          context: *context

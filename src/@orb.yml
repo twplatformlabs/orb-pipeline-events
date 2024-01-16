@@ -9,6 +9,7 @@ description: |
 
   **Commands**
   - packages. Manage installing dependent packages on macgine executors.
+  - set-docker-credentials. Validate credentials via login attempt.
 
   - dd-credentials. Setup datadog credential file.
   - dd-deploy. Send opinionated deploy event to datadog; for use in marking deployments on time-series widgets.
@@ -18,7 +19,6 @@ description: |
   - release. Create github release with notes using github-release-notes npm tool.
   - trigger. Define circleci Scheduled Pipeline.
   - slack-webhook. Send message to slack via slack-webhook.
-  - validate-docker-credentials. Validate credentials via login attempt.
 
   **jobs**
   - release. Use github-release-notes to automatically generate a release.
