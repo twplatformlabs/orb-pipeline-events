@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   do: twdps/pipeline-events@dev:<<pipeline.git.revision>>
-  op: twdps/onepassword@2.0.1
+  op: twdps/onepassword@2.0.2
 
 globals:
   - &context orb-publishing
@@ -27,6 +27,8 @@ jobs:
     resource_class: medium
     steps:
       - checkout
+      - op/packages:
+          op-version: 2.24.0-1
       # - do/packages:
       #     op-version: 2.24.0-1
       #     opw-version: 0.1.0
