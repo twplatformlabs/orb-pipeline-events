@@ -15,17 +15,13 @@ See [orb registry](https://circleci.com/developer/orbs/orb/twdps/pipeline-events
 Available options include:
 
 **Commands**
-- packages. 
-
-- dd-credentials. Setup datadog credential file  .
-- dd-deploy. Send opinionated deploy event to datadog; for use in marking deployments on time-series widgets.  
-- dd-install. Install datadog cli and (optionally) python3.
-- dd-event. Send fully customizable event to datadog.  
-- prune-dockerhub. delete specified tags from registry.
-- release. Create github release with notes using github-release-notes npm tool. 
-- trigger. Define circleci Scheduled Pipeline .
-- slack-webhook. Send message to slack via slack-webhook.
+- packages. Manage installing dependent packages on macgine executors.
 - set-docker-credentials. Validate credentials via login attempt.
+- release. Create github release with notes using github-release-notes npm tool.
+- slack-webhook. Send message to slack via slack-webhook.
+- prune-dockerhub. delete specified tags from registry.
+- dog. Post events and deployments to datadog
+- trigger. Define circleci Scheduled Pipeline.
 
 **jobs**
 - release. Use github-release-notes to automatically generate a release.

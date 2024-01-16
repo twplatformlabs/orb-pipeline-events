@@ -1,9 +1,10 @@
 # src/jobs/release.yaml
-
-description: Generate GitHub release using github-release-notes, as stand alone job. 
+# yamllint disable rule:line-length
+---
+description: Generate GitHub release using github-release-notes, as a stand alone job. 
 
 executor:
-  name: circleci-base-image
+  name: circleci-executor-builder
   image: << parameters.executor-image-name >>
   resource-class: << parameters.executor-resource-class >>
   username: << parameters.executor-registry-username >>
@@ -21,7 +22,7 @@ parameters:
   executor-image-name:
     description: specify machine executor
     type: string
-    default: twdps/circleci-base-image:alpine-stable
+    default: twdps/circleci-executor-builder:alpine-stable
 
   executor-registry-username:
     description: Environment variable to reference as username for the registry specified by executor-image parameter
@@ -36,26 +37,20 @@ parameters:
   executor-resource-class:
     description: specify executor resource class. Default is medium.
     type: enum
-    enum: [small, medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+    enum: [medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
     default: medium
 
-  os:
-    description: use a supported executor including automatic gren configuration or specify a custom image
-    type: enum
-    enum: ["Alpine","Custom"]
-    default: Alpine
-
-  release:
-    description: generate release notes
-    type: boolean
-    default: true
+  gren-version:
+    description: gren version
+    type: string
+    default: ""
 
   on-tag:
     description: generate release notes based on changes between last ne previous tag
     type: boolean
     default: false
 
-  extra-release-args:
+  additional-args:
     description: Extra flags to pass to gren
     type: string
     default: ""
@@ -84,22 +79,18 @@ steps:
   - checkout
   - setup_remote_docker
   - when:
-      condition:
-        equal: [ << parameters.os >>, "Alpine" ]
+      name: install gren
+      condition: << parameters.gren-version >>
       steps:
-        - run:
-            name: install github-release-notes
-            command: |
-              sudo apk add --no-cache nodejs npm
-              sudo npm install -g github-release-notes
+        - packages:
+            gren-version: << parameters.gren-version >>
   - when:
       name: Run before-release lifecycle hook steps.
       condition: << parameters.before-release >>
       steps: << parameters.before-release >>
   - release-notes:
-      release: << parameters.release >>
       on-tag: << parameters.on-tag >>
-      extra-release-args: << parameters.extra-release-args >>
+      additional-args: << parameters.additional-args >>
   - when:
       name: post slack channel message
       condition: << parameters.slack-message >>
@@ -108,6 +99,6 @@ steps:
           message: << parameters.slack-message >>
           webhook-url: << parameters.slack-webhook-url >>
   - when:
-      name: Run after_release lifecycle hook steps.
+      name: Run after-release lifecycle hook steps.
       condition: << parameters.after-release >>
       steps: << parameters.after-release >>

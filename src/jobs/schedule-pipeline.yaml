@@ -1,5 +1,6 @@
 # src/jobs/schedule-pipeline.yaml
-
+# yamllint disable rule:line-length
+---
 description: Schedule automated pipeline trigger, as stand alone job. 
 
 executor:
@@ -36,7 +37,7 @@ parameters:
   executor-resource-class:
     description: specify executor resource class. Default is medium.
     type: enum
-    enum: [small, medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+    enum: [medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
     default: medium
 
   circle-token:
