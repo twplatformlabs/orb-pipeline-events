@@ -46,6 +46,3 @@ usage:
     workflow-example:
       jobs:
         - use commands on ubuntu machine executor
-
-
-
