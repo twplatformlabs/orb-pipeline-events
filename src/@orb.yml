@@ -7,6 +7,9 @@ description: |
   Available options include:
 
   **Commands**
+  - packages. Manage installing dependent packages on macgine executors.
+
+  
   - dd-credentials. Setup datadog credential file  .
   - dd-deploy. Send opinionated deploy event to datadog; for use in marking deployments on time-series widgets.  
   - dd-install. Install datadog cli and (optionally) python3.

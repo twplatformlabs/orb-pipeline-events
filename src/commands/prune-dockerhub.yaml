@@ -13,15 +13,19 @@ description: |
   and will
 
 parameters:
+
   repository:
     description: dockerhub repository to prune
     type: string
+
   tag-filter:
     description: search parameters to find desired iamge tags
     type: string
+
   registry-login:
     type: string
     default: DOCKER_LOGIN
+    
   registry-password:
     type: string
     default: DOCKER_PASSWORD

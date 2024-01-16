@@ -1,99 +1,81 @@
 ---
 version: 2.1
 
-orbs:
-  orb-tools: twdps/orb-tools@0.2.0
+setup: true
 
-dev-release-filter: &dev-release-filter
+orbs:
+  orb-tools: circleci/orb-tools@12.0.4
+  shellcheck: circleci/shellcheck@3.2.0
+
+globals:
+  - &context orb-publishing
+  - &orb-name twdps/pipeline-events
+
+on-push-main: &on-push-main
   branches:
     only: /main/
   tags:
     ignore: /.*/
 
-edit-tag-publish-filter: &edit-tag-publish-filter
+on-tag-main: &on-tag-main
   branches:
     ignore: /.*/
   tags:
-    only: /^edit.*/
-
-patch-tag-publish-filter: &patch-tag-publish-filter
-  branches:
-    ignore: /.*/
-  tags:
-    only: /^patch.*/
-
-minor-tag-publish-filter: &minor-tag-publish-filter
-  branches:
-    ignore: /.*/
-  tags:
-    only: /^minor.*/
-
-major-tag-publish-filter: &major-tag-publish-filter
-  branches:
-    ignore: /.*/
-  tags:
-    only: /^major.*/
-
+    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
 workflows:
-  version: 2
 
-  dev-release-orb-pipeline-events:
+  development build and test:
     jobs:
-      - orb-tools/validate:
-          filters: *dev-release-filter
 
-      - orb-tools/publish-dev:
-          context: twdps-orb-authors
-          orb-name: twdps/pipeline-events
-          filters: *dev-release-filter
+      - orb-tools/lint:
+          filters: *on-push-main
+
+      - orb-tools/review:
+          max_command_length: 100
+          exclude: RC006,RC010,RC007,RC003
+          filters: *on-push-main
+
+      - shellcheck/check:
+          filters: *on-push-main
+
+      - orb-tools/pack:
+          filters: *on-push-main
+
+      - orb-tools/publish:
+          name: publish development package
+          context: *context
+          orb_name: *orb-name
+          vcs_type: << pipeline.project.type >>
+          filters: *on-push-main
           requires:
-            - orb-tools/validate
+            - orb-tools/lint
+            - orb-tools/review
+            - shellcheck/check
+            - orb-tools/pack
 
-      - approve-release:
-          type: approval
+      - orb-tools/continue:
+          name: Launch integration test pipeline
+          context: *context
+          orb_name: *orb-name
+          config_path: .circleci/integration-test.yml
+          pipeline_number: << pipeline.number >>
+          vcs_type: << pipeline.project.type >>
+          filters: *on-push-main
           requires:
-            - orb-tools/publish-dev
-          filters: *dev-release-filter
+            - publish development package
 
-      - orb-tools/release-tag:
-          context: twdps-orb-authors
-          ssh-fingerprints: $SVC_FINGERPRINT
-          use-git-diff: false
-          static-release-type: minor
-          filters: *dev-release-filter
-          requires:
-            - approve-release
-
-  promote-orb-pipeline-events:
+  release:
     jobs:
-      # patch, minor, or major publishing, depending on which orb source
-      # files have been modified (that logic lives in the
-      # release-tag job's source)
-      - orb-tools/promote-dev-to-prod:
-          name: patch-release
-          context: twdps-orb-authors
-          release: patch
-          orb-name: twdps/pipeline-events
-          ssh-fingerprints: $SVC_FINGERPRINT
-          filters: *patch-tag-publish-filter
+      - orb-tools/pack:
+          filters: *on-tag-main
 
-      - orb-tools/promote-dev-to-prod:
-          name: minor-release
-          context: twdps-orb-authors
-          release: minor
-          orb-name: twdps/pipeline-events
-          ssh-fingerprints: $SVC_FINGERPRINT
-          filters: *minor-tag-publish-filter
-
-      - orb-tools/promote-dev-to-prod:
-          name: major-release
-          context: twdps-orb-authors
-          release: major
-          orb-name: twdps/pipeline-events
-          ssh-fingerprints: $SVC_FINGERPRINT
-          filters: *major-tag-publish-filter
-
-      - orb-tools/documentation-only:
-          name: documentation-updates
-          filters: *edit-tag-publish-filter
+      - orb-tools/publish:
+          name: publish release version
+          context: *context
+          orb_name: *orb-name
+          vcs_type: << pipeline.project.type >>
+          pub_type: production
+          filters: *on-tag-main
+          requires:
+            - orb-tools/pack
