@@ -74,5 +74,5 @@ steps:
         - run:
             name: install datadog
             command: |
-              sudo pip install datadog==<< parameters.datadog-version >>
-              dog --version
+              # sudo pip install datadog==<< parameters.datadog-version >>
+              # dog --version

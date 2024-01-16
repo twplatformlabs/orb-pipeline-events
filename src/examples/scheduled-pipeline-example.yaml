@@ -1,0 +1,29 @@
+---
+description: Example release notes job.
+
+usage:
+  version: 2.1
+
+  orbs:
+    do: twdps/pipeline-events@2.0.1
+    op: twdps/onepassword@2.0.2
+
+  globals:
+    - &context empc-lab
+
+  workflows:
+    version: 2
+
+    workflow-example:
+      jobs:
+        - do/schedule-pipeline:
+            name: configure weekly trigger
+            context: *context
+            scheduled-pipeline-name: weekly-ci-build
+            scheduled-pipeline-description: |
+              Automatically trigger image build on a weekly schedule. Failure of
+              this recurring build indicates new releases of dependent packages.
+            hours-of-day: "[1]"
+            days-of-week: "[\"SUN\"]"
+            before-release:
+              - op/env

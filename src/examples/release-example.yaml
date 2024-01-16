@@ -1,0 +1,27 @@
+# src/examples/command-examples.yaml
+# yamllint disable rule:line-length
+---
+description: Example release notes job.
+
+usage:
+  version: 2.1
+
+  orbs:
+    do: twdps/pipeline-events@2.0.1
+    op: twdps/onepassword@2.0.2
+
+  globals:
+    - &context empc-lab
+
+  workflows:
+    version: 2
+
+    workflow-example:
+      jobs:
+        - do/release:
+            context: *context
+            on-tag: true
+            slack-message: "new release available"
+            slack-webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+            before-release:
+              - op/env

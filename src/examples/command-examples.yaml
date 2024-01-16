@@ -1,0 +1,51 @@
+# src/examples/command-examples.yaml
+# yamllint disable rule:line-length
+---
+description: Standard workflow demonstrating orb command features.
+
+usage:
+  version: 2.1
+
+  orbs:
+    do: twdps/pipeline-events@2.0.1
+    op: twdps/onepassword@2.0.2
+
+  on-push-main: &on-push-main
+    branches:
+      only: /main/
+    tags:
+      ignore: /.*/
+
+  jobs:
+    use commands on ubuntu machine executor:
+      machine:
+        image: ubuntu-2204:current
+      resource_class: medium
+      steps:
+        - checkout
+        - op/packages:
+            op-version: 2.24.0-1
+        - op/env:
+            name: setup ENV vars from op.env file
+        - do/packages:
+            gren-version: 0.17.3
+            python-version: 3.11.6
+            datadog-version: 0.47.0
+        - do/set-docker-credentials
+        # ...build and test an image
+        - do/prune-docker:
+            registry: docker.io/twdps/circleci-base-image
+            tag-filter: "dev"
+        - do/slack-webhook:
+            webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+
+
+  workflows:
+    version: 2
+
+    workflow-example:
+      jobs:
+        - use commands on ubuntu machine executor
+
+
+
