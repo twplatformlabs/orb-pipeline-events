@@ -7,7 +7,8 @@ description: |
   parameters:
   - channel = slack channel
   - use custom-message to provide complete custom message block json body
-  - set include-link = ture to add button that links back to pipeline url
+  - set include-link = true to add button that links back to pipeline url
+  - set include-tag = true to add git tag to message
 
 parameters:
 
