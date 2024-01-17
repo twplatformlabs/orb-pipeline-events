@@ -82,9 +82,9 @@ steps:
   - checkout
   - setup_remote_docker
   - when:
-      name: Run before-release lifecycle hook steps.
-      condition: << parameters.before-release >>
-      steps: << parameters.before-release >>
+      name: Run before-message lifecycle hook steps.
+      condition: << parameters.before-message >>
+      steps: << parameters.before-message >>
   - slack-bot:
       bot-token: << parameters.bot-token >>
       channel: << parameters.channel >>
@@ -92,6 +92,6 @@ steps:
       custom-message: << parameters.custom-message >>
       include-link: << parameters.include-link >>
   - when:
-      name: Run after_release lifecycle hook steps.
-      condition: << parameters.after-release >>
-      steps: << parameters.after-release >>
+      name: Run after-message lifecycle hook steps.
+      condition: << parameters.after-message >>
+      steps: << parameters.after-message >>
