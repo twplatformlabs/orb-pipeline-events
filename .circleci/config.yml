@@ -6,6 +6,7 @@ setup: true
 orbs:
   orb-tools: circleci/orb-tools@12.0.4
   shellcheck: circleci/shellcheck@3.2.0
+  do: twdps/pipeline-events@3.1.0
 
 globals:
   - &context orb-publishing
@@ -79,3 +80,11 @@ workflows:
           filters: *on-tag-main
           requires:
             - orb-tools/pack
+
+      - do/slack:
+          context: *context
+          channel: lab-events
+          message: "New twdps/pipeline-events orb release $CIRCLE_TAG"
+          filters: *on-tag-main
+          requires:
+            - publish release version

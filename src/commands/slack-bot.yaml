@@ -35,6 +35,11 @@ parameters:
     type: boolean
     default: false
 
+  include-tag:
+    description: append git tag to message
+    type: boolean
+    default: false
+
 steps:
   - run:
       name: post default bot message
@@ -43,5 +48,6 @@ steps:
         MESSAGE: << parameters.message >>
         CUSTOM_MESSAGE: << parameters.custom-message >>
         INCLUDE_LINK: << parameters.include-link >>
+        INCLUDE_TAG: << parameters.include-tag >>
         SLACK_BOT_TOKEN: << parameters.bot-token >>
       command: <<include(scripts/slack-bot-message.sh)>>

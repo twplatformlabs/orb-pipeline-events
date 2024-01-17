@@ -68,6 +68,11 @@ parameters:
     type: boolean
     default: false
 
+  include-tag:
+    description: append git tag to message
+    type: boolean
+    default: false
+
   before-message:
     description: Optional steps to prior to posting slack message.
     type: steps
@@ -91,6 +96,7 @@ steps:
       message: << parameters.message >>
       custom-message: << parameters.custom-message >>
       include-link: << parameters.include-link >>
+      include-tag: << parameters.include-tag >>
   - when:
       name: Run after-message lifecycle hook steps.
       condition: << parameters.after-message >>
