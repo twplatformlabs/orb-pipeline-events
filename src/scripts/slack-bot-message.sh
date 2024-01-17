@@ -12,19 +12,18 @@ if [[ "$CUSTOM_MESSAGE" != "" ]]; then
 else
   if [[ $LINK == 0 ]]; then
       json=$(cat <<EOF
-'{"channel": "$CHANNEL","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "$MESSAGE"}}]}'
+{"channel": "$CHANNEL","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"$MESSAGE"}}]}
 EOF
 )
   else
       json=$(cat <<EOF
-'{"channel": "$CHANNEL","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "$MESSAGE"}},{"type": "divider"},{"type": "actions","elements": [{"type": "button","text": {"type": "plain_text","text": "go to pipeline","emoji": true},"value": "pipeline","url": "$CIRCLE_BUILD_URL"}]}]}
-'
+{"channel": "$CHANNEL","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "$MESSAGE"}},{"type": "divider"},{"type": "actions","elements": [{"type": "button","text": {"type": "plain_text","text": "go to pipeline","emoji": true},"url": "$CIRCLE_BUILD_URL"}]}]}
 EOF
 )
   fi
 fi
-
-curl -H "Content-type: application/json" \
-      --data $json \
+echo $json
+curl -H "Content-type: application/json; charset=utf-8" \
+      --data "$json" \
       -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
       -X POST https://slack.com/api/chat.postMessage
