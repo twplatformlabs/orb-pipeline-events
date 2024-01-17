@@ -34,6 +34,9 @@ jobs:
           datadog-version: 0.47.0
       - op/env
       - do/set-docker-credentials
+      - do/slack-bot:
+          channel: lab-events
+          message: "orb-pipeline-events integration test message *with some bold text* and _some italicized text_."
 
 workflows:
 

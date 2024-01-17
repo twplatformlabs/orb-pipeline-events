@@ -1,0 +1,135 @@
+# src/jobs/slack.yaml
+# yamllint disable rule:line-length
+---
+description: send messasges to slack
+
+executor:
+  name: circleci-executor-builder
+  image: << parameters.executor-image-name >>
+  resource-class: << parameters.executor-resource-class >>
+  username: << parameters.executor-registry-username >>
+  password: << parameters.executor-registry-password >>
+
+shell: << parameters.shell >>
+
+parameters:
+
+  shell:
+    description: default shell invocation. Override to support different shells or tools like 1password-cli
+    type: string
+    default: /bin/bash -eo pipefail
+
+  executor-image-name:
+    description: specify machine executor
+    type: string
+    default: twdps/circleci-executor-builder:alpine-stable
+
+  executor-registry-username:
+    description: Environment variable to reference as username for the registry specified by executor-image-name parameter
+    type: env_var_name
+    default: DOCKER_LOGIN
+
+  executor-registry-password:
+    description: Environment variable to reference as password for the registry specified by executor-image-name parameter
+    type: env_var_name
+    default: DOCKER_PASSWORD
+
+  executor-resource-class:
+    description: specify executor resource class. Default is medium.
+    type: enum
+    enum: [medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+    default: medium
+
+  circle-token:
+    type: env_var_name
+    default: CIRCLE_TOKEN
+
+  scheduled-pipeline-name:
+    description: name of scheduled job
+    type: string
+
+  scheduled-pipeline-description:
+    type: string
+    default: ""
+
+  per-hour:
+    description: number of times per hour to run the job
+    type: integer
+    default: 1
+
+  hours-of-day:
+    description: |
+      array of numbers, passed as a string, indicating which hours during the day the scheduled job should run; in UTC time.
+      E.g., '[4, 15]' means at 4am and 3pm UTC.
+    type: string
+
+  days-of-week:
+    description: |
+      array of day abbreviations, passed as a string, indicating which days of the week the scheduled job should run.
+      E.g., '["SUN","WED"]' means every Sunday and Wednesday.
+      (Must use either days-of-week or days-of-month, not both)
+    type: string
+    default: "[]"
+
+  days-of-month:
+    description: |
+      array of day numbers, passed as a string, indicating which days of the month the scheduled job should run.
+      E.g., '[1,15]' means the 1st and 15th of each month.
+      (Must use either days-of-week or days-of-month, not both)
+    type: string
+    default: "[]"
+
+  months:
+    description: |
+      array of month name abbreviations, passed as a string, indicating which month the scheduled job should run. Default is all.
+      E.g., '["JAN","APR","JUL","OCT"]' means the last month of each quarter.
+      (Optional)
+    type: string
+    default: "[]"
+
+  attribution-actor:
+    description: |
+      Designation of the identity assumed by the scheduled job.
+      "system" results in org general system level id (can perform all tasks).
+      "current" uses the id of the api-token used to schedule the job. If you provide a machine-account token when running
+      this command then it will appear as that machine-user running all subsequent scheduled jobs.
+    type: string
+    default: "current"
+
+  pipeline-parameters:
+    description: map of parameters to pass to the pipeline. Must include at least the branch.
+    type: string
+    default: "{ \"branch\": \"main\" }"
+
+  before-release:
+    description: Optional steps to prior to gren release.
+    type: steps
+    default: []
+
+  after-release:
+    description: Optional steps to run after gren release.
+    type: steps
+    default: []
+
+steps:
+  - checkout
+  - setup_remote_docker
+  - when:
+      name: Run before-release lifecycle hook steps.
+      condition: << parameters.before-release >>
+      steps: << parameters.before-release >>
+  - trigger:
+      circle-token: << parameters.circle-token >>
+      scheduled-pipeline-name: << parameters.scheduled-pipeline-name >>
+      scheduled-pipeline-description: << parameters.scheduled-pipeline-description >>
+      per-hour: << parameters.per-hour >>
+      hours-of-day: << parameters.hours-of-day >>
+      days-of-week: << parameters.days-of-week >>
+      days-of-month: << parameters.days-of-month >>
+      months: << parameters.months >>
+      attribution-actor: << parameters.attribution-actor >>
+      pipeline-parameters: << parameters.pipeline-parameters >>
+  - when:
+      name: Run after_release lifecycle hook steps.
+      condition: << parameters.after-release >>
+      steps: << parameters.after-release >>
