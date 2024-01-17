@@ -36,7 +36,13 @@ jobs:
       - do/set-docker-credentials
       - do/slack-bot:
           channel: lab-events
-          message: "orb-pipeline-events integration test message *with some bold text* and _some italicized text_."
+          message: "orb-pipeline-events integration test without button"
+      - do/slack-bot:
+          include-link: true
+          channel: lab-events
+          message: "orb-pipeline-events integration test with button"
+      - do/slack-bot:
+          custom-message: '{"channel": "lab-events","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"custom message json"}}]}'
 
 workflows:
 

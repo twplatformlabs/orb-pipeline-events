@@ -10,7 +10,7 @@ echo "CIRCLE_BUILD_URL=$CIRCLE_BUILD_URL"
 if [[ "$CUSTOM_MESSAGE" != "" ]]; then
   json=$CUSTOM_MESSAGE
 else
-  if [[ $LINK == 0 ]]; then
+  if [[ $INCLUDE_LINK == 0 ]]; then
       json=$(cat <<EOF
 {"channel": "$CHANNEL","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"$MESSAGE"}}]}
 EOF
