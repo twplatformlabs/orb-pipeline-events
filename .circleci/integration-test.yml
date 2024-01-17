@@ -42,6 +42,7 @@ workflows:
       - test pipeline events:
           context: *context
       - do/slack:
+          context: *context
           channel: lab-events
           message: orb-pipeline-events slack message job with button
           include-link: true
