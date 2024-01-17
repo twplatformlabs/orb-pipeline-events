@@ -8,7 +8,7 @@ echo "INCLUDE_LINK=$INCLUDE_LINK"
 echo "CIRCLE_BUILD_URL=$CIRCLE_BUILD_URL"
 echo "INCLUDE_TAG=$INCLUDE_TAG"
 
-if [[ $INCLUDE_TAG == 0]]; then
+if [[ $INCLUDE_TAG == 0 ]]; then
   msg=$MESSAGE
 else
   msg="$MESSAGE $CIRCLE_TAG"
