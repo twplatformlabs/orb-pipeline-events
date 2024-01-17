@@ -43,6 +43,6 @@ steps:
         MESSAGE: << parameters.message >>
         CUSTOM_MESSAGE: << parameters.custom-message >>
         INCLUDE_LINK: << parameters.include-link >>
-        CIRCLE_BUILD_URL: $CIRCLE_BUILD_URL
+        #CIRCLE_BUILD_URL: $CIRCLE_BUILD_URL
         SLACK_BOT_TOKEN: << parameters.bot-token >>
       command: <<include(scripts/slack-bot-message.sh)>>
