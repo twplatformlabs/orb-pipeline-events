@@ -44,7 +44,7 @@ workflows:
       - do/slack:
           context: *context
           channel: lab-events
-          message: orb-pipeline-events slack message job with button
+          message: orb-pipeline-events dev build test of slack message job with button
           include-link: true
           before-message:
             - op/env
