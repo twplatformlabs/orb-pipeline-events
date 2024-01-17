@@ -44,6 +44,29 @@ parameters:
     type: env_var_name
     default: CIRCLE_TOKEN
 
+  bot-token:
+    description: slack-bot api token
+    type: string
+    default: $SLACK_BOT_TOKEN
+
+  channel:
+    description: post message to this channel
+    type: string
+
+  message:
+    description: Event message
+    type: string
+    default: "unconfigured message: [${CIRCLE_USERNAME}] ${CIRCLE_JOB} ${CIRCLE_TAG} sha:${CIRCLE_SHA1} ${CIRCLE_BUILD_URL}"
+
+  custom-message:
+    description: Use custom message instead of default
+    type: string
+    default: ""
+
+  include-link:
+    description: include link back to pipeline
+    type: boolean
+    default: false
 
   before-message:
     description: Optional steps to prior to posting slack message.
@@ -63,7 +86,11 @@ steps:
       condition: << parameters.before-release >>
       steps: << parameters.before-release >>
   - slack-bot:
-      
+      bot-token: << parameters.bot-token >>
+      channel: << parameters.channel >>
+      message: << parameters.message >>
+      custom-message: << parameters.custom-message >>
+      include-link: << parameters.include-link >>
   - when:
       name: Run after_release lifecycle hook steps.
       condition: << parameters.after-release >>

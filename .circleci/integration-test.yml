@@ -36,11 +36,11 @@ jobs:
       - do/set-docker-credentials
       - do/slack-bot:
           channel: lab-events
-          message: "orb-pipeline-events integration test without button"
+          message: "orb-pipeline-events. slack-bot command test without button"
       - do/slack-bot:
           include-link: true
           channel: lab-events
-          message: "orb-pipeline-events integration test with button"
+          message: "orb-pipeline-events. slack-bot command test with button"
       - do/slack-bot:
           channel: in message
           custom-message: '{"channel": "lab-events","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"custom message json"}}]}'
@@ -51,3 +51,13 @@ workflows:
     jobs:
       - test pipeline events:
           context: *context
+      - do/slack:
+          channel: lab-events
+          message: orb-pipeline-events slack message job with button
+          include-link: true
+          before-message:
+            - echo-message:
+                msg: "before slack message"
+          after-message:
+            - echo-message:
+                msg: "after slack message"
