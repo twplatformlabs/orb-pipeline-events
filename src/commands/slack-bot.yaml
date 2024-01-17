@@ -19,7 +19,7 @@ parameters:
   channel:
     description: post message to this channel
     type: string
-    
+
   message:
     description: Event message
     type: string
@@ -36,31 +36,13 @@ parameters:
     default: false
 
 steps:
-  - unless:
+  - run:
       name: post default bot message
-      condition: << parameters.custom-message >>
-      steps:
-        - run:
-            name: post default bot message
-            environment:
-              CHANNEL: << parameters.channel >>
-              MESSAGE: << parameters.message >>
-              CUSTOM_MESSAGE: << parameters.custom-message >>
-              INCLUDE_LINK: << parameters.include-link >>
-              CIRCLE_BUILD_URL: $CIRCLE_BUILD_URL
-              SLACK_BOT_TOKEN: << parameters.bot-token >>
-            command: <<include(scripts/slack-bot-message.sh)>>
-  # - when:
-  #     name: post default bot message
-  #     condition: << parameters.custom-message >>
-  #     steps:
-  #       - run:
-  #           name: post default bot message
-  #           command: |
-  #             msg=$(cat <<EOF
-  #             '{"channel": "<< parameters.channel >>","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<< parameters.message >>"}},{"type": "divider"},{"type": "actions","elements": [{"type": "button","text": {"type": "plain_text","text": "go to pipeline","emoji": true},"value": "pipeline","url": "<< parameters.url >>"}]}]}'
-  #             EOF)
-  #             curl -H "Content-type: application/json" \
-  #                  --data $msg \
-  #                  -H "Authorization: Bearer << parameters.bot-token >>" \
-  #                  -X POST https://slack.com/api/chat.postMessage
+      environment:
+        CHANNEL: << parameters.channel >>
+        MESSAGE: << parameters.message >>
+        CUSTOM_MESSAGE: << parameters.custom-message >>
+        INCLUDE_LINK: << parameters.include-link >>
+        CIRCLE_BUILD_URL: $CIRCLE_BUILD_URL
+        SLACK_BOT_TOKEN: << parameters.bot-token >>
+      command: <<include(scripts/slack-bot-message.sh)>>
