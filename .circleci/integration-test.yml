@@ -34,16 +34,6 @@ jobs:
           datadog-version: 0.47.0
       - op/env
       - do/set-docker-credentials
-      - do/slack-bot:
-          channel: lab-events
-          message: "orb-pipeline-events. slack-bot command test without button"
-      - do/slack-bot:
-          include-link: true
-          channel: lab-events
-          message: "orb-pipeline-events. slack-bot command test with button"
-      - do/slack-bot:
-          channel: in message
-          custom-message: '{"channel": "lab-events","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"custom message json"}}]}'
 
 workflows:
 
@@ -56,6 +46,7 @@ workflows:
           message: orb-pipeline-events slack message job with button
           include-link: true
           before-message:
+            - op/env
             - echo-message:
                 msg: "before slack message"
           after-message:
