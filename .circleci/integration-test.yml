@@ -42,6 +42,7 @@ jobs:
           channel: lab-events
           message: "orb-pipeline-events integration test with button"
       - do/slack-bot:
+          channel: in message
           custom-message: '{"channel": "lab-events","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"custom message json"}}]}'
 
 workflows:
