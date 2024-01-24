@@ -118,18 +118,6 @@ steps:
       name: Run before-schedule lifecycle hook steps.
       condition: << parameters.before-schedule >>
       steps: << parameters.before-schedule >>
-  - run:
-      name: job debug info
-      command: |
-        echo "<< parameters.scheduled-pipeline-name >>"
-        echo "<< parameters.scheduled-pipeline-description >>"
-        echo "<< parameters.per-hour >>"
-        echo "<< parameters.hours-of-day >>"
-        echo "<< parameters.days-of-week >>"
-        echo "<< parameters.days-of-month >>"
-        echo "<< parameters.months >>"
-        echo "<< parameters.attribution-actor >>"
-        echo "<< parameters.pipeline-parameters >>"
   - trigger:
       circle-token: << parameters.circle-token >>
       scheduled-pipeline-name: << parameters.scheduled-pipeline-name >>
