@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #shellcheck disable=SC2086,SC2004
+set -eo pipefail
 
 PROJECTAPI_URL="https://circleci.com/api/v2/project/gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/schedule"
 echo "$PROJECTAPI_URL"

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 #shellcheck disable=SC2086,SC2004
+set -eo pipefail
+
 echo "DEBUG: dependent env vars"
 echo "CHANNEL=$CHANNEL"
 echo "MESSAGE=$MESSAGE"
