@@ -18,7 +18,7 @@ steps:
   - run:
       name: write shared script file to << parameters.file-path >>
       command: |
-        cat \<< 'EOF'
+        cat \<< 'EOF' > bash-functions.sh
         # shared bash functions
 
         # awsAssumeRole ()  ================================================================================
