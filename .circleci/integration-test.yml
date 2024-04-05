@@ -28,7 +28,7 @@ jobs:
     steps:
       - checkout
       - op/packages:
-          op-version: 2.25.0-1
+          op-version: 2.26.1-1
       - do/packages:
           gren-version: 0.17.3
           datadog-version: 0.47.0
