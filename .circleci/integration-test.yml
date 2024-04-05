@@ -34,6 +34,7 @@ jobs:
           datadog-version: 0.47.0
       - op/env
       - do/set-docker-credentials
+      - do/bash-functions
 
 workflows:
 
