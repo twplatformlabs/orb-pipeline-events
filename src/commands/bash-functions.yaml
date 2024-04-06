@@ -16,7 +16,7 @@ parameters:
 
 steps:
   - run:
-      name: write shared script file to << parameters.file-path >>
+      name: write pipeline-events shared script file to << parameters.file-path >>
       command: |
         cat \<< 'EOF' > bash-functions.sh
         # shared bash functions
