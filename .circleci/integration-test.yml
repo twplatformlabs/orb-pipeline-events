@@ -23,7 +23,7 @@ jobs:
 
   test python install on alpine executor:
     docker:
-      - image: twdps/circleci-remote-docker:alpine-stable
+      - image: twdps/circleci-base-image:alpine-stable
     steps:
       - checkout
       - setup_remote_docker
@@ -38,7 +38,7 @@ jobs:
 
   test python install on ubuntu executor:
     docker:
-      - image: twdps/circleci-remote-docker:slim-stable
+      - image: twdps/circleci-base-image:slim-stable
     steps:
       - checkout
       - setup_remote_docker
