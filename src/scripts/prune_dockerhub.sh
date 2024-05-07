@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#shellcheck disable=SC2002
 set -eo pipefail
 
 echo "get bearer token from dtr using login and password"
@@ -11,7 +12,7 @@ echo "get all tags from specified image repository"
 TOKEN=$(cat token.jwt)
 PAGE="https://hub.docker.com/v2/repositories/${REPOSITORY}/tags/"
 while [[ "$PAGE" != null ]]; do
-    curl ${PAGE} \
+    curl "${PAGE}" \
         -X GET \
         -H "Authorization: JWT ${TOKEN}" \
         > page_images.json

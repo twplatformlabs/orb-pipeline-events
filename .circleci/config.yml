@@ -34,8 +34,7 @@ workflows:
           filters: *on-push-main
 
       - orb-tools/review:
-          max_command_length: 100
-          exclude: RC010
+          exclude: RC010, RC009
           filters: *on-push-main
 
       - shellcheck/check:

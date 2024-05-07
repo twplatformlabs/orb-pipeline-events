@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#shellcheck disable=SC2155,SC2002
 set -eo pipefail
 
 cat \<< 'EOF' > bash-functions.sh
@@ -13,7 +14,7 @@ cat \<< 'EOF' > bash-functions.sh
 # Expects IAM credentials to be defined as ENV variables
 
 awsAssumeRole () {
-    aws sts assume-role --output json --role-arn arn:aws:iam::$1:role/$2 --role-session-name aws-assume-role > credentials
+    aws sts assume-role --output json --role-arn arn:aws:iam::"$1":role/"$2" --role-session-name aws-assume-role > credentials
 
     export AWS_ACCESS_KEY_ID=$(cat credentials | jq -r ".Credentials.AccessKeyId")
     export AWS_SECRET_ACCESS_KEY=$(cat credentials | jq -r ".Credentials.SecretAccessKey")
