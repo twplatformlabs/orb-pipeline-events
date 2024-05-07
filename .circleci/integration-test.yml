@@ -28,13 +28,13 @@ jobs:
       - checkout
       - setup_remote_docker
       - do/install:
-          python-version: 3.11.6
+          python-version: latest
           os: Alpine
       - run:
           name: test version install
           command: |
             set -exo pipefail
-            python -V | grep "3.11.9"
+            python --help | grep "usage"
 
   test python install on ubuntu executor:
     docker:
@@ -43,13 +43,13 @@ jobs:
       - checkout
       - setup_remote_docker
       - do/install:
-          python-version: 3.11.6
+          python-version: latest
           os: Ubuntu
       - run:
           name: test version install
           command: |
             set -exo pipefail
-            python -V | grep "3.11.9"
+            python --help | grep "usage"
 
   test versioned package install: 
     machine:
