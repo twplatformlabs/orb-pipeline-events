@@ -3,9 +3,9 @@ set -eo pipefail
 
 if [[ "$OS" == "Alpine" ]]; then
     if [[ "$PYTHON_VERSION" == "latest" ]]; then
-        sudo apk add --no-cache python3
+        sudo apk add --no-cache python3-dev
     else
-        sudo apk add --no-cache python3=="$PYTHON_VERSION"
+        sudo apk add --no-cache python3-dev=="$PYTHON_VERSION"
     fi
     sudo rm -r /usr/lib/python*/ensurepip
     sudo pip3 install --upgrade pip
