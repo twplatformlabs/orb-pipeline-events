@@ -29,21 +29,30 @@ parameters:
 
 steps:
 
-  - run:
-      name: install gren << parameters.gren-version >>
-      environment:
-        GREN_VERSION: << parameters.gren-version >>
-      command: <<include(scripts/install_gren.sh)>>
+  - when:
+      condition: << parameters.gren-version >>
+      steps:
+        - run:
+            name: install gren << parameters.gren-version >>
+            environment:
+              GREN_VERSION: << parameters.gren-version >>
+            command: <<include(scripts/install_gren.sh)>>
 
-  - run:
-      name: install python << parameters.python-version >> on << parameters.os >>
-      environment:
-        PYTHON_VERSION: << parameters.python-version >>
-        OS: << parameters.os >>
-      command: <<include(scripts/install_python.sh)>>
+  - when:
+      condition: << parameters.python-version >>
+      steps:
+        - run:
+            name: install python << parameters.python-version >> on << parameters.os >>
+            environment:
+              PYTHON_VERSION: << parameters.python-version >>
+              OS: << parameters.os >>
+            command: <<include(scripts/install_python.sh)>>
 
-  - run:
-      name: install datadog << parameters.datadog-version >>
-      environment:
-        DOG_VERSION: << parameters.datadog-version >>
-      command: <<include(scripts/install_datadog.sh)>>
+  - when:
+      condition: << parameters.datadog-version >>
+      steps:
+        - run:
+            name: install datadog << parameters.datadog-version >>
+            environment:
+              DOG_VERSION: << parameters.datadog-version >>
+            command: <<include(scripts/install_datadog.sh)>>
