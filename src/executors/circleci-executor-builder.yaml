@@ -1,4 +1,4 @@
-# src/executors/circleci-executro-builder.yaml
+# src/executors/circleci-executro-builder.yml
 ---
 description: |
   Used by certain pipeline-events jobs.

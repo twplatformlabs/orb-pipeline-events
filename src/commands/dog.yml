@@ -1,4 +1,4 @@
-# src/commands/dog.yaml
+# src/commands/dog.yml
 # yamllint disable rule:line-length
 ---
 description: Datadog CLI commands.

@@ -1,4 +1,4 @@
-# src/commands/slack-bot.yaml
+# src/commands/slack-bot.yml
 # yamllint disable rule:line-length
 ---
 description: |

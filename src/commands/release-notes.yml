@@ -1,4 +1,4 @@
-# src/commands/release-notes.yaml
+# src/commands/release-notes.yml
 # yamllint disable rule:line-length
 ---
 description: |

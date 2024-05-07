@@ -1,4 +1,4 @@
-# src/commands/slack-webhook.yaml
+# src/commands/slack-webhook.yml
 # yamllint disable rule:line-length
 ---
 description: |

@@ -1,4 +1,4 @@
-# src/jobs/release.yaml
+# src/jobs/release.yml
 # yamllint disable rule:line-length
 ---
 description: Generate GitHub release using github-release-notes, as a stand alone job.

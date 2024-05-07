@@ -1,4 +1,4 @@
-# src/examples/command-examples.yaml
+# src/examples/command-example.yml
 # yamllint disable rule:line-length
 ---
 description: Example release notes job.
@@ -7,8 +7,8 @@ usage:
   version: 2.1
 
   orbs:
-    do: twdps/pipeline-events@2.0.1
-    op: twdps/onepassword@2.0.2
+    do: twdps/pipeline-events@4.0.0
+    op: twdps/onepassword@3.0.0
 
   globals:
     - &context empc-lab

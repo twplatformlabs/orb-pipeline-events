@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   do: twdps/pipeline-events@dev:<<pipeline.git.revision>>
-  op: twdps/onepassword@2.0.2
+  op: twdps/onepassword@3.0.0
 
 globals:
   - &context orb-publishing
@@ -21,28 +21,106 @@ commands:
 
 jobs:
 
-  test pipeline events:
+  test python install on alpine executor:
+    docker:
+      - image: twdps/circleci-remote-docker:alpine-stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - do/install:
+          python-version: 3.11.6
+          os: Alpine
+      - run:
+          name: test version install
+          command: |
+            set -exo pipefail
+            python -V | grep "3.11.9"
+
+  test python install on ubuntu executor:
+    docker:
+      - image: twdps/circleci-remote-docker:slim-stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - do/install:
+          python-version: 3.11.6
+          os: Ubuntu
+      - run:
+          name: test version install
+          command: |
+            set -exo pipefail
+            python -V | grep "3.11.9"
+
+  test versioned package install: 
     machine:
       image: ubuntu-2204:current
     resource_class: medium
     steps:
       - checkout
-      - op/packages:
-          op-version: 2.26.1-1
-      - do/packages:
+      - do/install:
           gren-version: 0.17.3
           datadog-version: 0.47.0
+      - run:
+          name: test version install
+          command: |
+            set -exo pipefail
+            gren -v | grep "0.17.3"
+            dog -V | grep "0.47.0"
+
+  test package install using latest: 
+    machine:
+      image: ubuntu-2204:current
+    resource_class: medium
+    steps:
+      - checkout
+      - do/install:
+          gren-version: latest
+          datadog-version: latest
+      - run:
+          name: test version install
+          command: |
+            set -exo pipefail
+            gren --help | grep "gren"
+            dog --help | grep "dog"
+
+  test commands:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: medium
+    steps:
+      - checkout
+      - op/install:
+          op-version: 2.27.0
       - op/env
       - do/set-docker-credentials
+      - run:
+          name: test set-docker-credentials result
+          command: |
+            set -exo pipefail
+            cat ~/.docker/config.json | grep "auths"
       - do/bash-functions
+      - run:
+          name: test bash-functions result
+          command: |
+            set -exo pipefail
+            cat bash-functions.sh
+            cat bash-functions.sh | grep "AWS"
 
 workflows:
 
   integration tests:
     jobs:
-      - test pipeline events:
+      - test python install on alpine executor
+      - test python install on ubuntu executor
+
+      - test versioned package install
+      - test package install using latest
+
+      - test commands:
           context: *context
+
       - do/slack:
+          name: test slack bot job
           context: *context
           channel: lab-events
           message: orb-pipeline-events dev build test of slack message job with button

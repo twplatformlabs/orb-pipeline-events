@@ -1,4 +1,4 @@
-# src/jobs/schedule-pipeline.yaml
+# src/jobs/schedule-pipeline.yml
 # yamllint disable rule:line-length
 ---
 description: Schedule automated pipeline trigger, as stand alone job.

@@ -14,17 +14,19 @@ See [orb registry](https://circleci.com/developer/orbs/orb/twdps/pipeline-events
 
 Available options include:
 
-**Commands**
-- packages. Manage installing dependent packages on macgine executors.
-- set-docker-credentials. Validate credentials via login attempt.
-- release. Create github release with notes using github-release-notes npm tool.
-- slack-webhook. Send message to slack via slack-webhook.
-- prune-dockerhub. delete specified tags from registry.
-- dog. Post events and deployments to datadog
-- trigger. Define circleci Scheduled Pipeline.
+  **Commands**
+  - install. Manage installing dependent packages.
+  - set-docker-credentials. Validate credentials via login attempt.
+  - release. Create github release with notes using github-release-notes npm tool.
+  - slack-bot. Post slack-bot message, with optional link back button and custom json override.
+  - slack-webhook. Send message to slack via slack-webhook.
+  - prune-dockerhub. delete specified tags from registry.
+  - dog. Post events and deployments to datadog
+  - trigger. Define circleci Scheduled Pipeline.
 
-**jobs**
-- release. Use github-release-notes to automatically generate a release.
-- scheduled-pipeline. Configure a trigger schedule for auomatic pipeline runs.
+  **jobs**
+  - release. Use github-release-notes to automatically generate a release.
+  - scheduled-pipeline. Configure a trigger schedule for auomatic pipeline runs.
+  - slack. Post slack-bot message.
 
-NOTE: v3.x.x is a breaking change. Review documentation in detail before upgrading.
+NOTE: v4.x.x is a breaking change. Review documentation in detail before upgrading.

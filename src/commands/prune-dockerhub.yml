@@ -1,0 +1,43 @@
+# src/commands/prune-registry.yml
+# yamllint disable rule:line-length
+---
+description: |
+  Delete artifacts from dockerhub registry.
+
+  Often a CI pipeline will need to write frequent development builds of a docker image to a
+  registry as part of the development process for applications intended for deployment within
+  a kubernetes namespace.
+
+  A useful step upon tagging a release candidate is to remove the dev builds from the registry.
+
+  This command accepts a regex pattern for identifying the tags to be removed from the registry.
+
+  Note that this has not been optimized for repositories with 1000s of images.
+
+parameters:
+
+  repository:
+    description: dockerhub repository to prune
+    type: string
+
+  tag-filter:
+    description: search parameters to find desired iamge tags
+    type: string
+
+  registry-login:
+    type: string
+    default: DOCKER_LOGIN
+
+  registry-password:
+    type: string
+    default: DOCKER_PASSWORD
+
+steps:
+  - run:
+      name: prune docker registry
+      environment:
+        DOCKER_LOGIN: << parameters.registry-login >>
+        DOCKER_PASSWORD: << parameters.registry-password >>
+        REPOSITORY: << parameters.repository >>
+        TAG_FILTER: << parameters.tag-filter >>
+      command: <<include(scripts/prune_dockerhub.sh)>>

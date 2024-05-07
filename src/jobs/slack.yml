@@ -1,4 +1,4 @@
-# src/jobs/slack.yaml
+# src/jobs/slack.yml
 # yamllint disable rule:line-length
 ---
 description: send messasges to slack
