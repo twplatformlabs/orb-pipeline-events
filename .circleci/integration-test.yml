@@ -65,7 +65,7 @@ jobs:
           command: |
             set -exo pipefail
             gren -v | grep "0.17.3"
-            dog -V | grep "0.47.0"
+            dog -v | grep "0.47.0"
 
   test package install using latest: 
     machine:
