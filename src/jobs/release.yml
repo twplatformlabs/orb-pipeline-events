@@ -82,7 +82,7 @@ steps:
       name: install gren
       condition: << parameters.gren-version >>
       steps:
-        - packages:
+        - install:
             gren-version: << parameters.gren-version >>
   - when:
       name: Run before-release lifecycle hook steps.

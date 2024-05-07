@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#shellcheck disable=SC2002
+#shellcheck disable=SC2002,SC2162
 set -eo pipefail
 
 echo "get bearer token from dtr using login and password"

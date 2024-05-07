@@ -2,7 +2,7 @@
 #shellcheck disable=SC2155,SC2002
 set -eo pipefail
 
-cat \<< 'EOF' > bash-functions.sh
+cat << 'EOF' > bash-functions.sh
 # shared bash functions
 
 # awsAssumeRole ()  ================================================================================
