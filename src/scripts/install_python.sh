@@ -7,7 +7,7 @@ if [[ "$OS" == "Alpine" ]]; then
     else
         sudo apk add --no-cache python3-dev=="$PYTHON_VERSION"
     fi
-    sudo rm /usr/lib/python3.11/EXTERNALLY-MANAGED
+    sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
     sudo python3 -m ensurepip
     sudo rm -r /usr/lib/python*/ensurepip
     sudo pip3 install --upgrade pip
