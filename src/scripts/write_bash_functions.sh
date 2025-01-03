@@ -21,7 +21,7 @@ awsAssumeRole () {
     export AWS_SESSION_TOKEN=$(cat credentials | jq -r ".Credentials.SessionToken")
 }
 
-# write1passwordField ()  ================================================================================
+# write1passwordField ()  ============================================================================
 #
 # update field value in 1password vault item, will creat item if it does not exists
 # Expects parameters
@@ -44,6 +44,27 @@ write1passwordField () {
         op item edit "$2" "$3=$4" --vault $1 >/dev/null
     fi
     set -e
+}
+
+# trivy_scan () =====================================================================================
+#
+# run trivy scan of helm chart
+# expects parameters
+# $1 = path from where chart can be pulled
+# $2 = chart name
+# $3 = chart version
+# $4 = path to optional values file
+
+trivyScan () {
+    echo "helm pull $1 --version $3"
+    helm pull "$1" --version $3
+    tar -xvf "$2-$3.tgz"
+    echo "run trivy scan on $2 --helm-values $4"
+    if [[ -z "$4" ]]; then
+        trivy config "$2"
+    else
+        trivy config --helm-values "$4" "$2"
+    fi
 }
 
 EOF
