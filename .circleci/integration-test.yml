@@ -85,19 +85,19 @@ workflows:
       - test versioned package install
       - test package install using latest
 
-      # - test commands:
-      #     context: *context
+      - test commands:
+          context: *context
 
-      # - do/slack:
-      #     name: test slack bot job
-      #     context: *context
-      #     channel: lab-events
-      #     message: orb-pipeline-events dev build test of slack message job with button
-      #     include-link: true
-      #     before-message:
-      #       - op/env
-      #       - echo-message:
-      #           msg: "before slack message"
-      #     after-message:
-      #       - echo-message:
-      #           msg: "after slack message"
+      - do/slack:
+          name: test slack bot job
+          context: *context
+          channel: lab-events
+          message: orb-pipeline-events dev build test of slack message job with button
+          include-link: true
+          before-message:
+            - op/env
+            - echo-message:
+                msg: "before slack message"
+          after-message:
+            - echo-message:
+                msg: "after slack message"
