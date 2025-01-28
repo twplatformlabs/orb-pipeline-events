@@ -2,7 +2,7 @@
 set -eo pipefail
 
 # add repository info for install of github cli
-mkdir -p -m 755 /etc/apt/keyrings
+mkdir -p /etc/apt/keyrings
 chmod 0755 /etc/apt/keyrings
 curl -s https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
 chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
