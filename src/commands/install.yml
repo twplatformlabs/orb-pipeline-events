@@ -2,15 +2,9 @@
 # yamllint disable rule:line-length
 ---
 description: |
-  Install dependent packages for pipeline-events commands.
+  Install dependent packages for pipeline-events commands running on Machine execution environment.
 
 parameters:
-
-  os:
-    description: OS installation method. Currently supports Alpine and Ubuntu
-    type: enum
-    enum: ["Alpine", "Ubuntu"]
-    default: Alpine
 
   gren-version:
     description: gren version
@@ -54,5 +48,4 @@ steps:
             name: install GitHub CLI << parameters.gh-cli-version >>
             environment:
               GH_CLI_VERSION: << parameters.gh-cli-version >>
-              OS: << parameters.os >>
             command: <<include(scripts/install_gh_cli.sh)>>
