@@ -88,7 +88,7 @@ steps:
       name: Run before-release lifecycle hook steps.
       condition: << parameters.before-release >>
       steps: << parameters.before-release >>
-  - release-notes:
+  - gren:
       on-tag: << parameters.on-tag >>
       additional-args: << parameters.additional-args >>
   - when:
