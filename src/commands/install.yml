@@ -6,24 +6,24 @@ description: |
 
 parameters:
 
-  gren-version:
-    description: gren version
-    type: string
-    default: ""
-
   os:
     description: OS installation method. Currently supports Alpine and Ubuntu
     type: enum
     enum: ["Alpine", "Ubuntu"]
     default: Alpine
 
-  python-version:
-    description: datadog version
+  gren-version:
+    description: gren version
     type: string
     default: ""
 
   datadog-version:
     description: datadog version
+    type: string
+    default: ""
+
+  gh-cli-version:
+    decsription: GitHub CLI version
     type: string
     default: ""
 
@@ -39,16 +39,6 @@ steps:
             command: <<include(scripts/install_gren.sh)>>
 
   - when:
-      condition: << parameters.python-version >>
-      steps:
-        - run:
-            name: install python << parameters.python-version >> on << parameters.os >>
-            environment:
-              PYTHON_VERSION: << parameters.python-version >>
-              OS: << parameters.os >>
-            command: <<include(scripts/install_python.sh)>>
-
-  - when:
       condition: << parameters.datadog-version >>
       steps:
         - run:
@@ -56,3 +46,13 @@ steps:
             environment:
               DOG_VERSION: << parameters.datadog-version >>
             command: <<include(scripts/install_datadog.sh)>>
+
+  - when:
+      condition: << parameters.gh-cli-version >>
+      steps:
+        - run:
+            name: install GitHub CLI << parameters.gh-cli-version >>
+            environment:
+              GH_CLI_VERSION: << parameters.gh-cli-version >>
+              OS: << parameters.os >>
+            command: <<include(scripts/install_gh_cli.sh)>>
