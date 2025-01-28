@@ -30,14 +30,14 @@ jobs:
       - do/install:
           gren-version: 0.17.3
           datadog-version: 0.47.0
-          gh-cli-version: 2.49.2
+          gh-cli-version: 2.64.0
       - run:
           name: test version install
           command: |
             set -exo pipefail
             gren -v | grep "0.17.3"
             dog -v | grep "0.47.0"
-            gh --version | grep "2.49.2"
+            gh --version | grep "2.64.0"
 
   test package install using latest: 
     machine:
@@ -64,7 +64,7 @@ jobs:
     steps:
       - checkout
       - op/install:
-          op-version: 2.27.0
+          op-version: 2.29.0
       - op/env
       - do/set-docker-credentials
       - run:
