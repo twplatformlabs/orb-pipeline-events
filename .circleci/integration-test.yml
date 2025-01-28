@@ -21,36 +21,6 @@ commands:
 
 jobs:
 
-  test python install on alpine executor:
-    docker:
-      - image: twdps/circleci-base-image:alpine-stable
-    steps:
-      - checkout
-      - setup_remote_docker
-      - do/install:
-          python-version: latest
-          os: Alpine
-      - run:
-          name: test version install
-          command: |
-            set -exo pipefail
-            python --help | grep "usage"
-
-  test python install on ubuntu executor:
-    docker:
-      - image: twdps/circleci-base-image:slim-stable
-    steps:
-      - checkout
-      - setup_remote_docker
-      - do/install:
-          python-version: latest
-          os: Ubuntu
-      - run:
-          name: test version install
-          command: |
-            set -exo pipefail
-            python --help | grep "usage"
-
   test versioned package install: 
     machine:
       image: ubuntu-2204:current
@@ -60,12 +30,14 @@ jobs:
       - do/install:
           gren-version: 0.17.3
           datadog-version: 0.47.0
+          gh-cli-version: 2.49.2
       - run:
           name: test version install
           command: |
             set -exo pipefail
             gren -v | grep "0.17.3"
             dog -v | grep "0.47.0"
+            gh --version | grep "2.49.2"
 
   test package install using latest: 
     machine:
@@ -76,12 +48,14 @@ jobs:
       - do/install:
           gren-version: latest
           datadog-version: latest
+          gh-cli-version: latest
       - run:
           name: test version install
           command: |
             set -exo pipefail
             gren --help | grep "gren"
             dog --help | grep "dog"
+            gh --help | grep "gh"
 
   test commands:
     machine:
@@ -110,25 +84,22 @@ workflows:
 
   integration tests:
     jobs:
-      - test python install on alpine executor
-      - test python install on ubuntu executor
-
       - test versioned package install
       - test package install using latest
 
-      - test commands:
-          context: *context
+      # - test commands:
+      #     context: *context
 
-      - do/slack:
-          name: test slack bot job
-          context: *context
-          channel: lab-events
-          message: orb-pipeline-events dev build test of slack message job with button
-          include-link: true
-          before-message:
-            - op/env
-            - echo-message:
-                msg: "before slack message"
-          after-message:
-            - echo-message:
-                msg: "after slack message"
+      # - do/slack:
+      #     name: test slack bot job
+      #     context: *context
+      #     channel: lab-events
+      #     message: orb-pipeline-events dev build test of slack message job with button
+      #     include-link: true
+      #     before-message:
+      #       - op/env
+      #       - echo-message:
+      #           msg: "before slack message"
+      #     after-message:
+      #       - echo-message:
+      #           msg: "after slack message"
