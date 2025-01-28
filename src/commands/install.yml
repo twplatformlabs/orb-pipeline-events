@@ -23,7 +23,7 @@ parameters:
     default: ""
 
   gh-cli-version:
-    decsription: GitHub CLI version
+    description: GitHub CLI version
     type: string
     default: ""
 
