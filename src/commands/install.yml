@@ -4,6 +4,8 @@
 description: |
   Install dependent packages for pipeline-events commands running on Machine execution environment.
 
+  Warning: Currently only support latest for GitHub CLI install vesion
+
 parameters:
 
   gren-version:
