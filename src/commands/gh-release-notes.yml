@@ -66,7 +66,7 @@ steps:
               - run:
                   environment:
                     OUTFILE: << parameters.notes-from-file >>
-                  command: <<include(scripts/install_gren.sh)>>
+                  command: <<include(scripts/append_commit_msg_to_notes.sh)>>
   - run:
       name: Create release
       command: |
