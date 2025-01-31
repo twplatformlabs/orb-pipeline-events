@@ -1,0 +1,121 @@
+# src/jobs/gh-release.yml
+# yamllint disable rule:line-length
+---
+description: Generate GitHub release using GitHub CLI, as a stand alone job.
+
+executor:
+  name: circleci-executor-builder
+  image: << parameters.executor-image-name >>
+  resource-class: << parameters.executor-resource-class >>
+  username: << parameters.executor-registry-username >>
+  password: << parameters.executor-registry-password >>
+
+shell: << parameters.shell >>
+
+parameters:
+
+  shell:
+    description: default shell invocation. Override to support different shells or tools like secrethub.io
+    type: string
+    default: /bin/bash -eo pipefail
+
+  executor-image-name:
+    description: specify machine executor
+    type: string
+    default: twdps/circleci-executor-builder:alpine-stable
+
+  executor-registry-username:
+    description: Environment variable to reference as username for the registry specified by executor-image parameter
+    type: env_var_name
+    default: DOCKER_LOGIN
+
+  executor-registry-password:
+    description: Environment variable to reference as password for the registry specified by executor-image parameter
+    type: env_var_name
+    default: DOCKER_PASSWORD
+
+  executor-resource-class:
+    description: specify executor resource class. Default is medium.
+    type: enum
+    enum: [medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+    default: medium
+
+  gh-cli-version:
+    description: GitHub CLI version
+    type: string
+    default: ""
+
+  title:
+    description: Release title. Default is Tag.
+    type: string
+    default: ""
+
+  notes-from-tag:
+    description: Create release notes from the tag message
+    type: boolean
+    default: false
+
+  notes-from-file:
+    description: |
+      Specify a file as the contents of the release note. 
+      Required to use include-commit-msg option.
+    type: string
+    default: ""
+
+  include-commit-msg:
+    description: Include block with all commit messages since last tag
+    type: boolean
+    default: false
+
+  upload-artifacts:
+    description: Upload list of artifact files to release
+    type: boolean
+    default: false
+
+  artifact-folder:
+    description: Location of files to upload.
+    type: string
+    default: ""
+
+  mark-as-draft:
+    description: |
+      Mark release as a draft. Included to support later automated or manual
+      processes for official releases.
+    type: boolean
+    default: false
+
+  before-release:
+    description: Optional steps to prior to gren release.
+    type: steps
+    default: []
+
+  after-release:
+    description: Optional steps to run after gren release.
+    type: steps
+    default: []
+
+steps:
+  - checkout
+  - setup_remote_docker
+  - when:
+      name: install github cli
+      condition: << parameters.gh-cli-version >>
+      steps:
+        - install:
+            gh-cli-version: << parameters.gh-cli-version >>
+  - when:
+      name: Run before-release lifecycle hook steps.
+      condition: << parameters.before-release >>
+      steps: << parameters.before-release >>
+  - gh-release-notes:
+      title: << parameters.title >>
+      notes-from-tag: << parameters.notes-from-tag >>
+      notes-from-file: << parameters.notes-from-file >>
+      include-commit-msg: << parameters.include-commit-msg >>
+      upload-artifacts: << parameters.upload-artifacts >>
+      artifact-folder: << parameters.artifact-folder >>
+      mark-as-draft: << parameters.mark-as-draft >>
+  - when:
+      name: Run after-release lifecycle hook steps.
+      condition: << parameters.after-release >>
+      steps: << parameters.after-release >>

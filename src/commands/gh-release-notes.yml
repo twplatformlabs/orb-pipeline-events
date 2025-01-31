@@ -1,0 +1,87 @@
+# src/commands/gh-release-notes.yml
+# yamllint disable rule:line-length
+---
+description: |
+  Use Github CLI to create or update github release notes based on repository tag.
+
+  - Expects GITHUB_TOKEN
+  - Use notes-from-tag flag to take release note contents from tag message
+    Will override notes-from-file
+  - Use notes-from-file to specify filepath for note contents
+  - Use include-commit-msg to append all commit messages since last tag to custom not file
+  - Use upload-artifacts to add entire contents of specified artifact-folder path to release note artifacts
+  - Use mark-as-draft flag to set releases to Draft
+
+parameters:
+
+  title:
+    description: Release title. Default is Tag.
+    type: string
+    default: ""
+
+  notes-from-tag:
+    description: Create release notes from the tag message
+    type: boolean
+    default: false
+
+  notes-from-file:
+    description: |
+      Specify a file as the contents of the release note. 
+      Required to use include-commit-msg option.
+    type: string
+    default: ""
+
+  include-commit-msg:
+    description: Include block with all commit messages since last tag
+    type: boolean
+    default: false
+
+  upload-artifacts:
+    description: Upload list of artifact files to release
+    type: boolean
+    default: false
+
+  artifact-folder:
+    description: Location of files to upload.
+    type: string
+    default: ""
+
+  mark-as-draft:
+    description: |
+      Mark release as a draft. Included to support later automated or manual
+      processes for official releases.
+    type: boolean
+    default: false
+
+steps:
+  - attach_workspace:
+      at: workspace
+  - when:
+      name: optionally add commit messages to release notes file
+      condition: << parameters.notes-from-file >>
+      steps:
+        - when:
+            condition: << parameters.include-commit-msg >>
+            steps:
+              - run:
+                  environment:
+                    OUTFILE:  << parameters.notes-from-file >>
+                  command: <<include(scripts/install_gren.sh)>>
+  - run:
+      name: Create release
+      command: |
+        gh release create $CIRCLE_TAG --verify-tag \
+        <<#parameters.title>> --title <<parameters.title>> <</parameters.title>> \
+        <<#parameters.mark-as-draft>> --draft <</parameters.mark-as-draft>> \
+        <<#parameters.notes-from-tag>> --notes-from-tag <</parameters.notes-from-tag>> \
+        <<#parameters.notes-from-tag>> --notes-from-tag <</parameters.notes-from-tag>> \
+        <<#parameters.notes-from-file>> --notes-file <<parameters.notes-from-file>> <</parameters.notes-from-file>>
+  - when:
+      name: Optionally upload contents of artifacts folder
+      condition: << parameters.upload-artifacts >>
+      steps:
+        - run:
+            name: upload files
+            command: |
+              files=$(ls -1 << parameters.artifact-folder >> | tr '\n' ' ')
+              gh release upload $CIRCLE_TAG $files --clobber
