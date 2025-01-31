@@ -85,6 +85,6 @@ steps:
         - run:
             name: upload files
             command: |
-              #files=$(ls -1 << parameters.artifact-folder >> | tr '\n' ' ')
               files=("<< parameters.artifact-folder >>"/*)
+              echo "files to be uploaded: $files"
               gh release upload $CIRCLE_TAG $files --clobber
