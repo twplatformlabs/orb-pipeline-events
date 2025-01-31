@@ -4,7 +4,7 @@ set -eo pipefail
 echo "append commit messages since last release to notes"
 
 messages=$(git log --oneline "$(git describe --tags --abbrev=0 @^)"..@)
-messages=$(echo "$messages" | sed 's/$/  /')
+messages=${messages//$'\n'/$'  \n'}
 
 cat <<EOF >> "$OUTFILE"
 <details>
