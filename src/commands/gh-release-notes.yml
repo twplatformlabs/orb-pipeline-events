@@ -17,7 +17,7 @@ parameters:
   title:
     description: Release title. Default is Tag.
     type: string
-    default: ""
+    default: $CIRCLE_TAG
 
   notes-from-tag:
     description: Create release notes from the tag message
