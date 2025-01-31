@@ -10,10 +10,4 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubc
 
 sudo apt-get install --no-install-recommends -y gh
 
-# if [[ "$GH_CLI_VERSION" == "latest" ]]; then
-#   sudo apt-get install --no-install-recommends -y gh
-# else
-#   sudo apt-get install --no-install-recommends -y gh="$GH_CLI_VERSION"
-# fi
-
 gh --version
