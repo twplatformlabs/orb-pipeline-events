@@ -4,18 +4,10 @@
 description: |
   Generate release notes using github-release-notes.
 
-  Dependencies:
   - expects GREN_GITHUB_TOKEN
   - use additional-args to customize default behavior
   - use .grenrc to customize release behavior
   - changelog behavior not supported
-
-
-  # roadmap
-  # - update release note body based on release tag
-  #    read the notes section and update with addition or replacement, based on provided tag
-  # - create a release using provided tag and file contents
-
 
 parameters:
 
