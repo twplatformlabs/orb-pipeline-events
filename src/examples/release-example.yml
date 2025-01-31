@@ -18,7 +18,7 @@ usage:
 
     workflow-example:
       jobs:
-        - do/release:
+        - do/gren-release:
             context: *context
             on-tag: true
             slack-message: "new release available"

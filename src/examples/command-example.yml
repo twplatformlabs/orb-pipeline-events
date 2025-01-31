@@ -29,7 +29,6 @@ usage:
             name: setup ENV vars from op.env file
         - do/install:
             gren-version: 0.17.3
-            python-version: 3.11.9
             datadog-version: 0.47.0
         - do/set-docker-credentials
         # ...build and test an image
