@@ -5,11 +5,11 @@ description: |
   Common shared bash functions. Example of how a team or organization can
   have common, shared bash scripts provided through an orb.
 
-  Use `source` to include.
+  Use `source bash-functions.sh` within a bash script to include.
 
 parameters:
 
-  file-path:
+  working-directory:
     description: Write location for shared bash functions
     type: string
     default: "."
@@ -18,4 +18,5 @@ steps:
 
   - run:
       name: write shared bash functions library to local bash_function.sh
+      working-directory: << parameters.working-directory >>
       command: <<include(scripts/write_bash_functions.sh)>>
