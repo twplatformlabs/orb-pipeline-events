@@ -17,7 +17,7 @@ parameters:
   title:
     description: Release title. Default is Tag.
     type: string
-    default: $CIRCLE_TAG
+    default: "$CIRCLE_TAG"
 
   notes-from-tag:
     description: Create release notes from the tag message
@@ -72,9 +72,9 @@ steps:
   - run:
       name: Create release
       command: |
-        gh release create $CIRCLE_TAG --verify-tag --title <<parameters.title>> \
+        echo "generate release: <<parameters.title>>"
+        gh release create $CIRCLE_TAG --verify-tag --title << parameters.title >> \
         <<#parameters.mark-as-draft>> --draft <</parameters.mark-as-draft>> \
-        <<#parameters.notes-from-tag>> --notes-from-tag <</parameters.notes-from-tag>> \
         <<#parameters.notes-from-tag>> --notes-from-tag <</parameters.notes-from-tag>> \
         <<#parameters.notes-from-file>> --notes-file <<parameters.notes-from-file>> <</parameters.notes-from-file>>
   - when:
