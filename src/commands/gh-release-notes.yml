@@ -61,9 +61,11 @@ steps:
       condition: << parameters.notes-from-file >>
       steps:
         - when:
+            name: append commit messages to release notes file
             condition: << parameters.include-commit-msg >>
             steps:
               - run:
+                  name: append commit messages to release notes file
                   environment:
                     OUTFILE: << parameters.notes-from-file >>
                   command: <<include(scripts/append_commit_msg_to_notes.sh)>>
@@ -83,5 +85,6 @@ steps:
         - run:
             name: upload files
             command: |
-              files=$(ls -1 << parameters.artifact-folder >> | tr '\n' ' ')
+              #files=$(ls -1 << parameters.artifact-folder >> | tr '\n' ' ')
+              files=("<< parameters.artifact-folder >>"/*)
               gh release upload $CIRCLE_TAG $files --clobber
