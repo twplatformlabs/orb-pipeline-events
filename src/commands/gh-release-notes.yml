@@ -26,7 +26,7 @@ parameters:
 
   notes-from-file:
     description: |
-      Specify a file as the contents of the release note. 
+      Specify a file as the contents of the release note.
       Required to use include-commit-msg option.
     type: string
     default: ""
@@ -65,7 +65,7 @@ steps:
             steps:
               - run:
                   environment:
-                    OUTFILE:  << parameters.notes-from-file >>
+                    OUTFILE: << parameters.notes-from-file >>
                   command: <<include(scripts/install_gren.sh)>>
   - run:
       name: Create release

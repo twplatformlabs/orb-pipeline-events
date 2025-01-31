@@ -57,7 +57,7 @@ parameters:
 
   notes-from-file:
     description: |
-      Specify a file as the contents of the release note. 
+      Specify a file as the contents of the release note.
       Required to use include-commit-msg option.
     type: string
     default: ""
