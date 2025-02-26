@@ -10,7 +10,7 @@ orbs:
   op: twdps/onepassword@3.0.0
 
 globals:
-  - &context platform
+  - &context orb-publishing
   - &orb-name twdps/pipeline-events
 
 on-push-main: &on-push-main
