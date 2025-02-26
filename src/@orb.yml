@@ -26,7 +26,9 @@ description: |
   - slack. Post slack-bot message.
 
     NOTE: v5.x.x is a breaking change. Review documentation in detail before upgrading.
+    The GitHub organization for these resources has changed to twplatformlabs. Until further
+    notice, the CircleCI org slug will remain twdps.
 
 display:
-  source_url: "https://github.com/ThoughtWorks-DPS/orb-pipeline-events"
-  home_url: "https://github.com/ThoughtWorks-DPS/orb-pipeline-events"
+  source_url: "https://github.com/twplatformlabs/orb-pipeline-events"
+  home_url: "https://github.com/twplatformlabs/orb-pipeline-events"
