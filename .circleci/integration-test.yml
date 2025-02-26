@@ -6,7 +6,7 @@ orbs:
   op: twdps/onepassword@3.0.0
 
 globals:
-  - &context orb-publishing
+  - &context platform
 
 commands:
 
