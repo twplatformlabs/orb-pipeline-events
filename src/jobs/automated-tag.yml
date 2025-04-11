@@ -45,6 +45,16 @@ parameters:
     type: string
     default: "monthly-recurring"
 
+  committer-email:
+    description: Committer information.
+    type: string
+    default: ""
+
+  committer-name:
+    description: Committer information.
+    type: string
+    default: ""
+
   before-tag:
     description: Optional steps to prior to git tag.
     type: steps
@@ -70,6 +80,9 @@ steps:
       steps:
         - run:
             name: tag trunk HEAD with monthly-recurring tag format
+            environment:
+              COMMITTER_EMAIL: << parameters.committer-email >>
+              COMMITTER_NAME: << parameters.committer-name >>
             command: <<include(scripts/tag_monthly_recurring.sh)>>
   - when:
       name: Run after-tag lifecycle hook steps.
