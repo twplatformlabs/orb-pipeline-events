@@ -66,7 +66,7 @@ steps:
   - when:
       name: monthly-recurring tag type
       condition:
-        equals: [ "monthly-recurring",<< parameters.tag-type >> ]
+        equals: ["monthly-recurring", << parameters.tag-type >>]
       steps:
         - run:
             name: tag trunk HEAD with monthly-recurring tag format
