@@ -67,4 +67,15 @@ trivyScan () {
     fi
 }
 
+# tagCurrentRepo ()  ================================================================================
+#
+# Create tag at truck HEAD of current .git repo
+# Expects parameters
+# $1 = tag
+
+tagCurrentRepo () {
+    git tag -a "$1" -m "Automated tag for build ${CIRCLE_BUILD_NUM:-'unknown'}"
+    git push origin "$1"
+}
+
 EOF

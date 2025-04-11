@@ -1,0 +1,77 @@
+# src/jobs/automated-tag.yml
+# yamllint disable rule:line-length
+---
+description: Create pre-defined tag on trunk HEAD. Used for automated release events.
+
+executor:
+  name: circleci-executor-builder
+  image: << parameters.executor-image-name >>
+  resource-class: << parameters.executor-resource-class >>
+  username: << parameters.executor-registry-username >>
+  password: << parameters.executor-registry-password >>
+
+shell: << parameters.shell >>
+
+parameters:
+
+  shell:
+    description: default shell invocation. Override to support different shells or tools like secrethub.io
+    type: string
+    default: /bin/bash -eo pipefail
+
+  executor-image-name:
+    description: specify machine executor
+    type: string
+    default: twdps/circleci-executor-builder:alpine-stable
+
+  executor-registry-username:
+    description: Environment variable to reference as username for the registry specified by executor-image parameter
+    type: env_var_name
+    default: DOCKER_LOGIN
+
+  executor-registry-password:
+    description: Environment variable to reference as password for the registry specified by executor-image parameter
+    type: env_var_name
+    default: DOCKER_PASSWORD
+
+  executor-resource-class:
+    description: specify executor resource class. Default is medium.
+    type: enum
+    enum: [medium, medium+, large, xlarge, 2xlarge, 2xlarge+]
+    default: medium
+
+  tag-type:
+    description: Supported tag options. Default is monthly-recurring.
+    type: string
+    default: "monthly-recurring"
+
+  before-tag:
+    description: Optional steps to prior to git tag.
+    type: steps
+    default: []
+
+  after-tag:
+    description: Optional steps to run after git tag.
+    type: steps
+    default: []
+
+steps:
+  - checkout
+  - setup_remote_docker
+  - when:
+      name: Run before-tag lifecycle hook steps.
+      condition: << parameters.before-tag >>
+      steps: << parameters.before-tag >>
+  - bash-functions
+  - when:
+      name: monthly-recurring tag type
+      condition:
+        equals: [ "monthly-recurring",<< parameters.tag-type >> ]
+      steps:
+        - run:
+            name: tag trunk HEAD with monthly-recurring tag format
+            command: <<include(scripts/tag_monthly_recurring.sh)>>
+  - when:
+      name: Run after-tag lifecycle hook steps.
+      condition: << parameters.after-tag >>
+      steps: << parameters.after-tag >>
