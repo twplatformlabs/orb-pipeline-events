@@ -3,12 +3,11 @@
 set -eo pipefail
 source bash-functions.sh
 
-committer_email=$1
-committer_name=$2
-
 # set committer
-  git config --global user.email "$committer_email"
-  git config --global user.name "$committer_name"
+  echo "committer_email: $COMMITTER_EMAIL"
+  echo "committer_email: $COMMITTER_NAME"
+  git config --global user.email "$COMMITTER_EMAIL"
+  git config --global user.name "$COMMITTER_NAME"
 
 # generate monthly-recurring tag value
 year=$(date +%Y)
