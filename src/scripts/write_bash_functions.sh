@@ -109,7 +109,7 @@ gcp_circleci_impersonate () {
     echo "export GOOGLE_APPLICATION_CREDENTIALS=$GCP_CRED_FILE_PATH" | tee -a "$BASH_ENV"
 
     # Verify authentication
-    gcloud iam service-accounts get-iam-policy "$SERVICE_ACCOUNT_EMAIL"
+    gcloud iam service-accounts get-iam-policy "$WIP_SA_EMAIL"
 }
 
 EOF
