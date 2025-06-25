@@ -1,0 +1,24 @@
+# src/commands/circle-oidc-auth.yml
+# yamllint disable rule:line-length
+---
+description: |
+  Perform CircleCI OIDC system trust authentication.
+
+parameters:
+
+  trust-target:
+    description: Trusting system identifier
+    type: string
+
+steps:
+  - when:
+      condition:
+        equal: [ "gcp-sa", << trust-target >> ]
+      steps:
+        - run:
+            name: circleci trust system
+            command: circleci trust system << parameters.trust-target >>
+  - run:
+      name: write shared bash functions library to local bash_function.sh
+      working-directory: << parameters.working-directory >>
+      command: <<include(scripts/write_bash_functions.sh)>>
