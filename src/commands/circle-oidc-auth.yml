@@ -33,7 +33,7 @@ parameters:
 steps:
   - when:
       condition:
-        equal: ["gcp-sa", << trust-target >>]
+        equal: ["gcp-sa", << parameters.trust-target >>]
       steps:
         - run:
             name: gcloud autuhenticate with circleci oidc trust
