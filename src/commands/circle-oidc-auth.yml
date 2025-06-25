@@ -33,13 +33,13 @@ parameters:
 steps:
   - when:
       condition:
-        equal: [ "gcp-sa", << trust-target >> ]
+        equal: ["gcp-sa", << trust-target >>]
       steps:
         - run:
             name: gcloud autuhenticate with circleci oidc trust
             environment:
-              WIP_ID: << parameter.gcp-workload-id >>
-              WIP_SA_EMAIL: << parameter.gcp-workload-sa >>
-              OIDC_TOKEN_PATH: << parameter.oidc-token-path >>
-              GCP_CRED_FILE_PATH: << parameter.gcp-cred-file-path >>
+              WIP_ID: << parameters.gcp-workload-id >>
+              WIP_SA_EMAIL: << parameters.gcp-workload-sa >>
+              OIDC_TOKEN_PATH: << parameters.oidc-token-path >>
+              GCP_CRED_FILE_PATH: << parameters.gcp-cred-file-path >>
             command: <<include(scripts/gcp-circleci-sa-trust.sh)>>
