@@ -78,4 +78,38 @@ tagCurrentRepo () {
     git push origin "$1"
 }
 
+# gcp_circleci_impersonate () ================================================================================
+#
+# gcloud authenticate and impersonate sa identity for CIRCLECI oidc trust
+# expects parameters
+# $1 = WIP_ID
+# $2 = WIP_SA_EMAIL
+# $3 = OIDC_TOKEN_PATH          default is /home/circleci/oidc_token.json
+# $4 = GCP_CRED_FILE_PATH       default is /home/circleci/gcp_cred_config.json
+
+gcp_circleci_impersonate () {
+    WIP_ID=$1
+    WIP_SA_EMAIL=$2
+    OIDC_TOKEN_PATH=${3:-/home/circleci/oidc_token.json}
+    GCP_CRED_FILE_PATH=${4:-/home/circleci/gcp_cred_config.json}
+
+    # Store OIDC token in temp file
+    echo $CIRCLE_OIDC_TOKEN > $OIDC_TOKEN_PATH
+
+    # Create a credential configuration for the generated OIDC ID Token
+    gcloud iam workload-identity-pools create-cred-config $WIP_ID \
+           --service-account=$WIP_SA_EMAIL \
+           --credential-source-file=$OIDC_TOKEN_PATH \
+           --output-file=$GCP_CRED_FILE_PATH
+
+    # Configure gcloud to leverage the generated credential configuration
+    gcloud auth login --brief --cred-file "$GCP_CRED_FILE_PATH"
+
+    # Configure ADC
+    echo "export GOOGLE_APPLICATION_CREDENTIALS=$GCP_CRED_FILE_PATH" | tee -a "$BASH_ENV"
+
+    # Verify authentication
+    gcloud iam service-accounts get-iam-policy "$SERVICE_ACCOUNT_EMAIL"
+}
+
 EOF
