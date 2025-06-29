@@ -4,6 +4,9 @@
 description: |
   Perform CircleCI OIDC system trust authentication.
 
+  Supports the current trusting systems:
+  - GCP: specific workload identity pool and google cloud service account
+
 parameters:
 
   trust-target:
