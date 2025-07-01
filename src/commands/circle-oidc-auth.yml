@@ -39,7 +39,7 @@ steps:
         equal: ["gcp-sa", << parameters.trust-target >>]
       steps:
         - run:
-            name: gcloud autuhenticate with circleci oidc trust
+            name: gcloud authenticate with circleci oidc trust
             environment:
               WIP_ID: << parameters.gcp-workload-id >>
               WIP_SA_EMAIL: << parameters.gcp-workload-sa >>
