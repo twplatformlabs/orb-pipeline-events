@@ -7,6 +7,10 @@ set -eo pipefail
 # OIDC_TOKEN_PATH     write local instance of CircleCI OIDC token
 # GCP_CRED_FILE_PATH  write local instance of resulting credentials
 
+echo "Creating workload-identity-pool credentials for"
+echo "WIP_ID: $WIP_ID"
+echo "WIP_SA_EMAIL: $WIP_SA_EMAIL"
+
 # Store OIDC token in temp file
 echo "$CIRCLE_OIDC_TOKEN" > "$OIDC_TOKEN_PATH"
 

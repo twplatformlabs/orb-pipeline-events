@@ -10,7 +10,7 @@ description: |
 parameters:
 
   trust-target:
-    description: Trusting system identifier
+    description: Orb parameter to indicate which supported system trust is to be used
     type: string
 
   gcp-workload-id:
