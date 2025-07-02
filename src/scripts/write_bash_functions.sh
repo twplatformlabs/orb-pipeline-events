@@ -78,17 +78,19 @@ tagCurrentRepo () {
     git push origin "$1"
 }
 
-# gcp_sa_impersonate () ==============================================================================
+# gc_sa_impersonate () ==============================================================================
 #
 # gcloud impersonate service account identity using current identity
 # expects parameters
-# $1 = GCP_PROJECT_ID
+# $1 = GC_PROJECT_ID
 # $2 = SERVICE_ACCOUNT
 
-gcp_sa_impersonate () {
-    GCP_PROJECT_ID=$1
+gc_sa_impersonate () {
+    GC_PROJECT_ID=$1
     SERVICE_ACCOUNT=$2
-    gcloud config set auth/impersonate_service_account ${SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com &>/dev/null
+
+    echo "impersonating ${SERVICE_ACCOUNT}@${GC_PROJECT_ID}.iam.gserviceaccount.com"
+    gcloud config set auth/impersonate_service_account ${SERVICE_ACCOUNT}@${GC_PROJECT_ID}.iam.gserviceaccount.com &>/dev/null
 }
 
 EOF
