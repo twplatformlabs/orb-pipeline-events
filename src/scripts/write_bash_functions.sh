@@ -61,9 +61,9 @@ trivyScan () {
     tar -xvf "$2-$3.tgz"
     echo "run trivy scan on $2 --helm-values $4"
     if [[ -z "$4" ]]; then
-        trivy config --helm-set kubeVersion="1.29.0" "$2"
+        trivy config --helm-kube-version 1.29.0 "$2"
     else
-        trivy config --helm-set kubeVersion="1.29.0" --helm-values "$4" "$2"
+        trivy config --helm-kube-version 1.29.0 --helm-values "$4" "$2"
     fi
 }
 
