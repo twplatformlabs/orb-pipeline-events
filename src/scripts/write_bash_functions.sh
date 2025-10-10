@@ -93,4 +93,26 @@ gc_sa_impersonate () {
     gcloud config set auth/impersonate_service_account ${SERVICE_ACCOUNT}@${GC_PROJECT_ID}.iam.gserviceaccount.com &>/dev/null
 }
 
+# add_kubeconfig_values () ==========================================================================
+#
+# adds a new certificate-auth style context to the existed kubeconfig file using provided values
+# expects parameters
+# $1 = context name               # local context name, e.g., karmada-sbxmapi
+# $2 = server                     # URL to kubernetes API endpoint
+# $3 = ca_file                    # Server CA file associated with URL endpoint
+# $4 = client_certificate_file    # client pub cert
+# $5 = client_key_file            # client private cert
+
+add_kubeconfig_values () {
+    local context_name=$1              
+    local server=$2
+    local ca_file=$3
+    local client_certificate_file=$4
+    local client_key_file=$5
+
+    kubectl config set-cluster "${context_name}" --server="${server}" --embed-certs --certificate-authority="${ca_file}"
+    kubectl config set-credentials "${context_name}" --token="" --client-certificate="${client_certificate_file}" --client-key="${client_key_file}" --embed-certs=true
+    kubectl config set-context "${context_name}" --cluster="${context_name}" --user="${context_name}"
+}
+
 EOF
