@@ -87,7 +87,7 @@ jobs:
             source bash-functions.sh
             set -eo pipefail
             test_value=$(openssl rand -hex 8)
-            write1passwordField platform test-fixture write-test "$test_value"
+            write1passwordField "platform" "test-fixture" "write-test" "$test_value"
             result=$( op item get tp5twbpvkjeubd2axvz56xmmba --reveal --field label=test-write)
             if [[ $result != "$test_value" ]]; then
               echo "write to 1password failed"
