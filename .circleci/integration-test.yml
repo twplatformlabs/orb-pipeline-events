@@ -72,11 +72,48 @@ jobs:
             cat ~/.docker/config.json | grep "auths"
       - do/bash-functions
       - run:
-          name: test bash-functions result
+          name: confirm bash-functions are written
           command: |
+            #!/usr/bin/env bash
             set -exo pipefail
             cat bash-functions.sh
             cat bash-functions.sh | grep "AWS"
+      # - run:
+      #     name: # TODO: awsAssumeRole functional test
+      - run:
+          name: test Write to 1password
+          command: |
+            #!/usr/bin/env bash
+            source bash-functions.sh
+            set -eo pipefail
+            test_value=$(openssl rand -hex 8)
+            write1passwordField platform test-fixture write-test "$test_value"
+            result=$( op item get tp5twbpvkjeubd2axvz56xmmba --reveal --field label=test-write)
+            if [[ $result != "$test_value" ]]; then
+              echo "write to 1password failed"
+              exit 1
+            fi
+
+      # - run:
+      #     name: # TODO: test Trivy helm chart scan
+      # - run:
+      #     name: # TODO:test tagging of current github repo
+      - run:
+          name: test adding cert-based kubeconfig context
+          command: |
+            #!/usr/bin/env bash
+            source bash-functions.sh
+            set -exo pipefail
+
+            echo "ca_file" > ca_file
+            echo "client_certificate_file" > client_certificate_file
+            echo "client_key_file" > client_key_file
+            add_kubeconfig_values test "https://example.com" ca_file client_certificate_file client_key_file
+            error=$(k config get-contexts test | grep context)
+            if [[ "$error" == *context* ]]; then
+              echo "test context not found"
+              exit 1
+            fi
 
 workflows:
 
