@@ -1,0 +1,67 @@
+# src/commands/gh-buildx-image-release.yml
+# yamllint disable rule:line-length
+---
+description: |
+  Use Github CLI to create or update github release notes for docker images based on a bake file.
+
+  - Expects GITHUB_TOKEN
+  - Expects to use the contents of a local note file as the release note contents
+  - Use notes-from-file to specify filepath for note contents
+  - Use include-commit-msg to append all commit messages since last tag to custom not file
+  - Use upload-artifacts to add entire contents of specified artifact-folder path to release note artifacts
+  - Use mark-as-draft flag to set releases to Draft
+
+parameters:
+
+  title:
+    description: Release title. Default is Tag.
+    type: string
+    default: "$CIRCLE_TAG"
+
+  notes-from-file:
+    description: Specify a file as the contents of the release note.
+    type: string
+
+  include-commit-msg:
+    description: Include block with all commit messages since last tag
+    type: boolean
+    default: false
+
+  include-sbom:
+    description: Include sbom information from image manifest
+    type: boolean
+    default: false
+
+  mark-as-draft:
+    description: |
+      Mark release as a draft. Included to support later automated or manual
+      processes for official releases.
+    type: boolean
+    default: false
+
+steps:
+  - when:
+      name: append commit messages to release notes file
+      condition: << parameters.include-commit-msg >>
+      steps:
+        - run:
+            name: append commit messages to release notes file
+            environment:
+              OUTFILE: << parameters.notes-from-file >>
+            command: <<include(scripts/append_commit_msg_to_notes.sh)>>
+  - when:
+      name: append sbom information from image manifest to release notes file
+      condition: << parameters.include-sbom >>
+      steps:
+        - run:
+            name: append sbom information from image manifest to release notes file
+            environment:
+              OUTFILE: << parameters.notes-from-file >>
+            command: <<include(scripts/append_sbom_to_notes.sh)>>
+  - run:
+      name: Create release
+      command: |
+        echo "generate release: <<parameters.title>>"
+        gh release create $CIRCLE_TAG --verify-tag --title << parameters.title >> \
+        <<#parameters.mark-as-draft>> --draft <</parameters.mark-as-draft>> \
+        <<#parameters.notes-from-file>> --notes-file <<parameters.notes-from-file>> <</parameters.notes-from-file>>

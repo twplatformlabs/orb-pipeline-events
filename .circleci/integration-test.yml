@@ -93,7 +93,6 @@ jobs:
               echo "write to 1password failed"
               exit 1
             fi
-
       # - run:
       #     name: # TODO: test Trivy helm chart scan
       # - run:
