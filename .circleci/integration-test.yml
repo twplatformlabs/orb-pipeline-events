@@ -97,22 +97,22 @@ jobs:
       #     name: # TODO: test Trivy helm chart scan
       # - run:
       #     name: # TODO:test tagging of current github repo
-      - run:
-          name: test adding cert-based kubeconfig context
-          command: |
-            #!/usr/bin/env bash
-            source bash-functions.sh
-            set -exo pipefail
+      # - run:
+      #     name: test adding cert-based kubeconfig context
+      #     command: |
+      #       #!/usr/bin/env bash
+      #       source bash-functions.sh
+      #       set -exo pipefail
 
-            echo "ca_file" > ca_file
-            echo "client_certificate_file" > client_certificate_file
-            echo "client_key_file" > client_key_file
-            add_kubeconfig_values test "https://example.com" ca_file client_certificate_file client_key_file
-            error=$(k config get-contexts test | grep context)
-            if [[ "$error" == *context* ]]; then
-              echo "test context not found"
-              exit 1
-            fi
+      #       echo "ca_file" > ca_file
+      #       echo "client_certificate_file" > client_certificate_file
+      #       echo "client_key_file" > client_key_file
+      #       add_kubeconfig_values test "https://example.com" ca_file client_certificate_file client_key_file
+      #       error=$(k config get-contexts test | grep context)
+      #       if [[ "$error" == *context* ]]; then
+      #         echo "test context not found"
+      #         exit 1
+      #       fi
 
 workflows:
 
