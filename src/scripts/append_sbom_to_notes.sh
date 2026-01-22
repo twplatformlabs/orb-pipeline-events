@@ -60,7 +60,8 @@ while IFS=$'\t' read -r target_name raw_tag; do
       PREDICATE=$(jq -r '.predicateType // empty' "$BLOB")
 
       if [[ "$PREDICATE" == "https://spdx.dev/Document" ]]; then
-          FILE="$TMP_DIR/sbom-$(basename $BLOB).json"
+          BLOBNAME=$(basename "$BLOB")
+          FILE="$TMP_DIR/sbom-$BLOBNAME).json"
           echo "Saving SBOM -> $FILE"
           cp "$BLOB" "$FILE"
           break
@@ -68,12 +69,14 @@ while IFS=$'\t' read -r target_name raw_tag; do
     fi
   done
   PACKAGES=$(jq -r '.predicate.packages[] | "\(.name) \(.versionInfo)"' "$FILE")
-  echo '```' >> "$OUTFILE"
-  echo "$PACKAGES" >> "$OUTFILE"
-  echo '```' >> "$OUTFILE"
-  echo "" >> "$OUTFILE"
-  echo "</details>" >> "$OUTFILE"
-  echo "" >> "$OUTFILE"
+  {
+    echo '```' >> "$OUTFILE"
+    echo "$PACKAGES" >> "$OUTFILE"
+    echo '```' >> "$OUTFILE"
+    echo "" >> "$OUTFILE"
+    echo "</details>" >> "$OUTFILE"
+    echo ""
+  } >> "$OUTFILE"
   rm -rf "$TMP_DIR"
 
 done
