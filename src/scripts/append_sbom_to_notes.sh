@@ -14,7 +14,7 @@ echo "Using TAG=${TAG}"
 
 echo "<details>" > "$OUTFILE"
 {
-  echo "<summary>Installed packages</summary>" >> "$OUTFILE"
+  echo "<summary>Installed packages</summary>"
   echo ""
 } >> "$OUTFILE"
 
@@ -45,10 +45,11 @@ while IFS=$'\t' read -r target_name raw_tag; do
     echo "❌ Unable to resolve digest for ${image_ref}"
     exit 1
   fi
-
-  echo "<details>" >> "$OUTFILE"
-  echo "<summary>Package details from $target_name SBOM</summary>" >> "$OUTFILE"
-  echo "" >> "$OUTFILE"
+  {
+    echo "<details>"
+    echo "<summary>Package details from $target_name SBOM</summary>"
+    echo ""
+  } >> "$OUTFILE"
 
   digest_ref="${image_ref%@*}@${digest}"
   echo "Digest reference: ${digest_ref}"
@@ -72,11 +73,11 @@ while IFS=$'\t' read -r target_name raw_tag; do
   done
   PACKAGES=$(jq -r '.predicate.packages[] | "\(.name) \(.versionInfo)"' "$FILE")
   {
-    echo '```' >> "$OUTFILE"
-    echo "$PACKAGES" >> "$OUTFILE"
-    echo '```' >> "$OUTFILE"
-    echo "" >> "$OUTFILE"
-    echo "</details>" >> "$OUTFILE"
+    echo '```'
+    echo "$PACKAGES"
+    echo '```'
+    echo ""
+    echo "</details>"
     echo ""
   } >> "$OUTFILE"
   rm -rf "$TMP_DIR"
