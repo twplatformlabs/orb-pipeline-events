@@ -13,8 +13,10 @@ echo "Using bake file: $BAKEFILE"
 echo "Using TAG=${TAG}"
 
 echo "<details>" > "$OUTFILE"
-echo "<summary>Installed packages</summary>" >> "$OUTFILE"
-echo "" >> "$OUTFILE"
+{
+  echo "<summary>Installed packages</summary>" >> "$OUTFILE"
+  echo ""
+} >> "$OUTFILE"
 
 jq -r '
   .target
