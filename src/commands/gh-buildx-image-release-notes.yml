@@ -2,8 +2,8 @@
 # yamllint disable rule:line-length
 ---
 description: |
-  Use Github CLI to create or update github release notes and the $CIRCLE_TAG for docker images based on a bake file.
-  Will append optional details to the notes-from-file.
+  Use Github CLI to create or update github release notes for docker images based on a bake file.
+  Pass a 'title' to reference the semantic tag of the release. Will append optional details to the notes-from-file.
 
   - Use notes-from-file to specify filepath for note contents
   - (Optional) Use include-commit-msg to append all commit messages since last tag
@@ -11,6 +11,11 @@ description: |
   - (Optional) Use mark-as-draft flag to set releases to Draft
 
 parameters:
+
+  title:
+    description: Release title. Default is Tag.
+    type: string
+    default: "$CIRCLE_TAG"
 
   bake-file:
     description: Bake file defining images from which to pull sbom
@@ -56,14 +61,14 @@ steps:
             name: append sbom information from image manifest to release notes file
             environment:
               BAKEFILE: << parameters.bake-file >>
-              TAG: $CIRCLE_TAG
+              TAG: << parameters.title >>
               OUTFILE: << parameters.notes-from-file >>
             command: <<include(scripts/append_sbom_to_notes.sh)>>
   - run:
-      name: Create release $CIRCLE_TAG
+      name: Create release << parameters.title >>
       command: |
         gh release create --verify-tag \
-                          --title $CIRCLE_TAG \
+                          --title << parameters.title >> \
                           <<#parameters.mark-as-draft>> --draft <</parameters.mark-as-draft>> \
                           --notes-file <<parameters.notes-from-file>> \
-                          $CIRCLE_TAG
+                          << parameters.title >>

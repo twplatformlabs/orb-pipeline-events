@@ -98,6 +98,7 @@ steps:
       condition: << parameters.before-release >>
       steps: << parameters.before-release >>
   - gh-buildx-image-release-notes:
+      title: << parameters.title >>
       notes-from-file: << parameters.notes-from-file >>
       include-commit-msg: << parameters.include-commit-msg >>
       include-sbom: << parameters.include-sbom >>
