@@ -2,21 +2,15 @@
 # yamllint disable rule:line-length
 ---
 description: |
-  Use Github CLI to create or update github release notes for docker images based on a bake file.
+  Use Github CLI to create or update github release notes and the $CIRCLE_TAG for docker images based on a bake file.
+  Will append optional details to the notes-from-file.
 
-  - Expects GITHUB_TOKEN
-  - Expects to use the contents of a local note file as the release note contents
   - Use notes-from-file to specify filepath for note contents
-  - Use include-commit-msg to append all commit messages since last tag to custom not file
-  - Use upload-artifacts to add entire contents of specified artifact-folder path to release note artifacts
-  - Use mark-as-draft flag to set releases to Draft
+  - (Optional) Use include-commit-msg to append all commit messages since last tag
+  - (Optional) Use include-sbom to append package deetails from sbom
+  - (Optional) Use mark-as-draft flag to set releases to Draft
 
 parameters:
-
-  title:
-    description: Release title. Default is Tag.
-    type: string
-    default: "$CIRCLE_TAG"
 
   bake-file:
     description: Bake file defining images from which to pull sbom
@@ -66,9 +60,10 @@ steps:
               OUTFILE: << parameters.notes-from-file >>
             command: <<include(scripts/append_sbom_to_notes.sh)>>
   - run:
-      name: Create release
+      name: Create release <<parameters.title>>
       command: |
-        echo "generate release: <<parameters.title>>"
-        gh release create $CIRCLE_TAG --verify-tag --title << parameters.title >> \
-        <<#parameters.mark-as-draft>> --draft <</parameters.mark-as-draft>> \
-        <<#parameters.notes-from-file>> --notes-file <<parameters.notes-from-file>> <</parameters.notes-from-file>>
+        gh release create --verify-tag \
+                          --title << parameters.title >> \
+                          <<#parameters.mark-as-draft>> --draft <</parameters.mark-as-draft>> \
+                          --notes-file <<parameters.notes-from-file>> \
+                          $CIRCLE_TAG
