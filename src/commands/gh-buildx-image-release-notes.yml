@@ -18,6 +18,11 @@ parameters:
     type: string
     default: "$CIRCLE_TAG"
 
+  bake-file:
+    description: Bake file defining images from which to pull sbom
+    type: string
+    default: "docker-bake.json"
+
   notes-from-file:
     description: Specify a file as the contents of the release note.
     type: string
@@ -56,6 +61,8 @@ steps:
         - run:
             name: append sbom information from image manifest to release notes file
             environment:
+              BAKEFILE: << parameters.bake-file >>
+              TAG: << parameters.title >>
               OUTFILE: << parameters.notes-from-file >>
             command: <<include(scripts/append_sbom_to_notes.sh)>>
   - run:
