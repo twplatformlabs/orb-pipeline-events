@@ -56,14 +56,14 @@ steps:
             name: append sbom information from image manifest to release notes file
             environment:
               BAKEFILE: << parameters.bake-file >>
-              TAG: << parameters.title >>
+              TAG: $CIRCLE_TAG
               OUTFILE: << parameters.notes-from-file >>
             command: <<include(scripts/append_sbom_to_notes.sh)>>
   - run:
-      name: Create release <<parameters.title>>
+      name: Create release $CIRCLE_TAG
       command: |
         gh release create --verify-tag \
-                          --title << parameters.title >> \
+                          --title $CIRCLE_TAG \
                           <<#parameters.mark-as-draft>> --draft <</parameters.mark-as-draft>> \
                           --notes-file <<parameters.notes-from-file>> \
                           $CIRCLE_TAG
