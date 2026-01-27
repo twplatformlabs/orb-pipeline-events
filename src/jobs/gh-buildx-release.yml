@@ -62,7 +62,7 @@ parameters:
     type: boolean
     default: false
 
-  include-sbom:
+  include-sbom-guidance:
     description: Include package information from SBOM
     type: boolean
     default: false
@@ -101,7 +101,7 @@ steps:
       title: << parameters.title >>
       notes-from-file: << parameters.notes-from-file >>
       include-commit-msg: << parameters.include-commit-msg >>
-      include-sbom: << parameters.include-sbom >>
+      include-sbom-guidance: << parameters.include-sbom-guidance >>
       mark-as-draft: << parameters.mark-as-draft >>
   - when:
       name: Run after-release lifecycle hook steps.

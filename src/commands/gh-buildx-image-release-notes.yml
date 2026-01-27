@@ -31,10 +31,21 @@ parameters:
     type: boolean
     default: false
 
-  include-sbom:
-    description: Include sbom information from image manifest
+  include-sbom-guidance:
+    description: Run local script to include installed version of specified packages in release notes
     type: boolean
     default: false
+
+  entry-point:
+    description: container entry point
+    type: string
+    default: /bin/bash
+
+  test-path:
+    description: |
+      Test path for container entry point.
+    type: string
+    default: ""
 
   verify-tag:
     description: Verify version git tag
@@ -59,8 +70,8 @@ steps:
               OUTFILE: << parameters.notes-from-file >>
             command: <<include(scripts/append_commit_msg_to_notes.sh)>>
   - when:
-      name: append sbom information from image manifest to release notes file
-      condition: << parameters.include-sbom >>
+      name: append specified package versions to release notes file
+      condition: << parameters.include-sbom-guidance >>
       steps:
         - run:
             name: append sbom information from image manifest to release notes file
@@ -68,7 +79,9 @@ steps:
               BAKEFILE: << parameters.bake-file >>
               TAG: << parameters.title >>
               OUTFILE: << parameters.notes-from-file >>
-            command: <<include(scripts/append_sbom_to_notes.sh)>>
+              ENTRY_POINT: << parameters.entry-point >>
+              TEST_PATH: << parameters.test-path >>
+            command: <<include(scripts/append_sbom_guidance_to_notes.sh)>>
   - run:
       name: Create release << parameters.title >>
       command: |
