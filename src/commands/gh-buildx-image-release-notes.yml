@@ -1,4 +1,4 @@
-# src/commands/gh-buildx-image-release.yml
+# src/commands/gh-buildx-image-release-notes.yml
 # yamllint disable rule:line-length
 ---
 description: |
