@@ -36,6 +36,11 @@ parameters:
     type: boolean
     default: false
 
+  verify-tag:
+    description: Verify version git tag
+    type: boolean
+    default: false
+
   mark-as-draft:
     description: |
       Mark release as a draft. Included to support later automated or manual
@@ -67,8 +72,8 @@ steps:
   - run:
       name: Create release << parameters.title >>
       command: |
-        gh release create --verify-tag \
-                          --title << parameters.title >> \
+        gh release create --title << parameters.title >> \
+                          <<#parameters.verify-tag>> --verify-tag <</parameters.verify-tag>> \
                           <<#parameters.mark-as-draft>> --draft <</parameters.mark-as-draft>> \
                           --notes-file <<parameters.notes-from-file>> \
                           << parameters.title >>
