@@ -7,7 +7,7 @@ description: |
 
   - Use notes-from-file to specify filepath for note contents
   - (Optional) Use include-commit-msg to append all commit messages since last tag
-  - (Optional) Use include-sbom to append package deetails from sbom
+  - (Optional) Use include-sbom-guidance to automate custom details to release notes
   - (Optional) Use mark-as-draft flag to set releases to Draft
 
 parameters:
@@ -32,7 +32,7 @@ parameters:
     default: false
 
   include-sbom-guidance:
-    description: Run local script to include installed version of specified packages in release notes
+    description: Run local script to include custom details like installed version of specified packages in release notes
     type: boolean
     default: false
 
@@ -41,9 +41,8 @@ parameters:
     type: string
     default: /bin/bash
 
-  test-path:
-    description: |
-      Test path for container entry point.
+  guidance-path:
+    description: Path to script that will generate custom details into release notes.
     type: string
     default: ""
 
@@ -80,7 +79,7 @@ steps:
               TAG: << parameters.title >>
               OUTFILE: << parameters.notes-from-file >>
               ENTRY_POINT: << parameters.entry-point >>
-              TEST_PATH: << parameters.test-path >>
+              GUIDANCE_PATH: << parameters.guidance-path >>
             command: <<include(scripts/append_sbom_guidance_to_notes.sh)>>
   - run:
       name: Create release << parameters.title >>
