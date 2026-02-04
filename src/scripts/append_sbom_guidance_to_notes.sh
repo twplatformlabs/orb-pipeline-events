@@ -8,8 +8,8 @@ if [[ ! -f "$BAKEFILE" ]]; then
   exit 1
 fi
 
-if [[ ! -f "$TEST_PATH" ]]; then
-  echo "version query script not found: $TEST_PATH" >&2
+if [[ ! -f "$GUIDANCE_PATH" ]]; then
+  echo "custom notes content script not found: $GUIDANCE_PATH" >&2
   exit 1
 fi
 
