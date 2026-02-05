@@ -16,11 +16,12 @@ fi
 echo "Using bake file: $BAKEFILE"
 echo "Using TAG=${TAG}"
 
-{
-  echo "<details>"
-  echo "<summary>SBOM guidance</summary>"
-  echo ""
-} >> "$OUTFILE"
+cat << 'EOF' >> "$OUTFILE"
+<details>
+<summary>SBOM guidance</summary>
+
+EOF
+
 
 # Extract all targets and their tags
 jq -r '
@@ -51,7 +52,6 @@ while IFS=$'\t' read -r target_name raw_tag; do
   # Run bats scan against targets
   # requires bats files to contain any target specific logic
   docker run -it -d --name "${target_name}-container" --entrypoint "${ENTRY_POINT}" "${image_ref}"
-  docker ps
   {
     echo "===== Target: ${target_name}  Image: ${image_ref} ====="
     echo
@@ -59,5 +59,9 @@ while IFS=$'\t' read -r target_name raw_tag; do
     echo
   } >> "$OUTFILE"
 done
-echo "</details>" >> "$OUTFILE"
+cat << 'EOF' >> "$OUTFILE"
+</details>
+
+EOF
+
 echo "Success"
