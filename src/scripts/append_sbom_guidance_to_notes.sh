@@ -16,6 +16,12 @@ fi
 echo "Using bake file: $BAKEFILE"
 echo "Using TAG=${TAG}"
 
+{
+  echo "<details>"
+  echo "<summary>SBOM guidance</summary>"
+  echo ""
+} >> "$OUTFILE"
+
 # Extract all targets and their tags
 jq -r '
   .target
@@ -48,9 +54,10 @@ while IFS=$'\t' read -r target_name raw_tag; do
   docker ps
   {
     echo "===== Target: ${target_name}  Image: ${image_ref} ====="
+    echo
     TEST_CONTAINER="${target_name}-container" bash "$GUIDANCE_PATH"
     echo
   } >> "$OUTFILE"
 done
-
+echo "</details>" >> "$OUTFILE"
 echo "Success"
