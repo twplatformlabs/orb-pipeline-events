@@ -44,13 +44,11 @@ while IFS=$'\t' read -r target_name raw_tag; do
 
   # Run bats scan against targets
   # requires bats files to contain any target specific logic
+  docker run -it -d --name "${target_name}-container" --entrypoint "${ENTRY_POINT}" "${image_ref}"
+  docker ps
   {
     echo "===== Target: ${target_name}  Image: ${image_ref} ====="
-    docker run -it -d --name "${target_name}-container" --entrypoint "${ENTRY_POINT}" "${image_ref}"
-    docker ps
     TEST_CONTAINER="${target_name}-container" bash "$GUIDANCE_PATH"
-    echo
-    echo "--- End of ${target_name} test ---"
     echo
   } >> "$OUTFILE"
 done
