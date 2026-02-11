@@ -16,7 +16,7 @@ fi
 echo "Using bake file: $BAKEFILE"
 echo "Using TAG=${TAG}"
 
-cat << 'EOF' >> "$OUTFILE"
+cat << EOF >> "$OUTFILE"
 <details>
 <summary>SBOM guidance</summary>
 
@@ -51,7 +51,7 @@ while IFS=$'\t' read -r target_name raw_tag; do
 
   # Run bats scan against targets
   # requires bats files to contain any target specific logic
-  cat << 'EOF' >> "$OUTFILE"
+  cat << EOF >> "$OUTFILE"
 <details>
 <summary>${target_name}</summary>
 
@@ -63,7 +63,7 @@ cat << 'EOF' >> "$OUTFILE"
 
 EOF
 done
-cat << 'EOF' >> "$OUTFILE"
+cat << EOF >> "$OUTFILE"
 </details>
 
 EOF
