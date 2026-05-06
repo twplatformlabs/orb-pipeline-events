@@ -115,4 +115,24 @@ add_kubeconfig_values () {
     kubectl config set-context "${context_name}" --cluster="${context_name}" --user="${context_name}"
 }
 
+# validate_argocore_app_resource() ============================================================================
+#
+# uses argocd in local server mode to communicate with argocd application controller to confirm Application
+# resource status as synced and healthy.
+# expects parameters
+# @1 = argocd core namespace        # namespace where argocd core is deployed
+# @2 = argocd app name              # name of argocd Application resource to check
+
+validate_argocore_app_resource () {
+    local argocd_namespace=$1
+    local application_root=$2
+
+    argocd login --core
+
+    argocd app wait "${application_root}" --namespace="${argocd_namespace}" \
+    --sync \
+    --health \
+    --operation \
+    --timeout 300
+}
 EOF
