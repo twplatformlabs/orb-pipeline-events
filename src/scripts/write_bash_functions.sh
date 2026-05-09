@@ -134,7 +134,7 @@ validate_argocore_helm_app_resource () {
 
     echo "Verifying ArgoCD has the expected chart version..."
     actual_version=$(argocd app get "${application_root}" \
-    -o json | jq -r '.spec.source.targetRevision // .spec.source.chart')
+    -o json | jq -r '.spec.sources[0].targetRevision')
 
     if [[ "${actual_version}" != "${expected_version}" ]]; then
     echo "ERROR: Application.yaml still targeting ${actual_version}, expected ${expected_version}"
