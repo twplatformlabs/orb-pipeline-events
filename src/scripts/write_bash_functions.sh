@@ -115,19 +115,31 @@ add_kubeconfig_values () {
     kubectl config set-context "${context_name}" --cluster="${context_name}" --user="${context_name}"
 }
 
-# validate_argocore_app_resource() ============================================================================
+# validate_argocore_helm_app_resource() ============================================================================
 #
-# uses argocd in local server mode to communicate with argocd application controller to confirm Application
-# resource status as synced and healthy.
+# uses argocd in local server mode to communicate with argocd application controller using helm to deploy and
+# confirm updates Application resource statusas synced and healthy.
 # expects parameters
 # @1 = argocd core namespace        # namespace where argocd core is deployed
 # @2 = argocd app name              # name of argocd Application resource to check
+# @2 = expected chart version       # Chart version expected in the deploment
 
-validate_argocore_app_resource () {
+validate_argocore_helm_app_resource () {
     local argocd_namespace=$1
     local application_root=$2
+    local revision=$3
 
     argocd login --core
+
+    echo "Verifying ArgoCD has the expected chart version..."
+    actual_version=$(argocd app get "${application_root}" \
+    --namespace="${argocd_namespace}" \
+    -o json | jq -r '.spec.source.targetRevision // .spec.source.chart')
+
+    if [[ "${actual_version}" != "${expected_chart_version}" ]]; then
+    echo "ERROR: Application.yaml still targeting ${actual_version}, expected ${expected_chart_version}"
+    exit 1
+    fi
 
     argocd app wait "${application_root}" --namespace="${argocd_namespace}" \
     --sync \
@@ -136,3 +148,10 @@ validate_argocore_app_resource () {
     --timeout 300
 }
 EOF
+
+
+
+
+
+
+
