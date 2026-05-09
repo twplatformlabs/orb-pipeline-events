@@ -129,11 +129,11 @@ validate_argocore_helm_app_resource () {
     local application_root=$2
     local expected_version=$3
 
+    kubectl config set-context --current --namespace="$argocd_namespace"
     argocd login --core
 
     echo "Verifying ArgoCD has the expected chart version..."
     actual_version=$(argocd app get "${application_root}" \
-    --namespace="${argocd_namespace}" \
     -o json | jq -r '.spec.source.targetRevision // .spec.source.chart')
 
     if [[ "${actual_version}" != "${expected_version}" ]]; then
@@ -141,7 +141,7 @@ validate_argocore_helm_app_resource () {
     exit 1
     fi
 
-    argocd app wait "${application_root}" --namespace="${argocd_namespace}" \
+    argocd app wait "${application_root}" \
     --sync \
     --health \
     --operation \
