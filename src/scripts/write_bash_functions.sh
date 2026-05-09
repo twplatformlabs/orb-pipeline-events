@@ -122,12 +122,12 @@ add_kubeconfig_values () {
 # expects parameters
 # @1 = argocd core namespace        # namespace where argocd core is deployed
 # @2 = argocd app name              # name of argocd Application resource to check
-# @2 = expected chart version       # Chart version expected in the deploment
+# @3 = expected chart version       # Chart version expected in the deploment
 
 validate_argocore_helm_app_resource () {
     local argocd_namespace=$1
     local application_root=$2
-    local revision=$3
+    local expected_version=$3
 
     argocd login --core
 
@@ -136,8 +136,8 @@ validate_argocore_helm_app_resource () {
     --namespace="${argocd_namespace}" \
     -o json | jq -r '.spec.source.targetRevision // .spec.source.chart')
 
-    if [[ "${actual_version}" != "${expected_chart_version}" ]]; then
-    echo "ERROR: Application.yaml still targeting ${actual_version}, expected ${expected_chart_version}"
+    if [[ "${actual_version}" != "${expected_version}" ]]; then
+    echo "ERROR: Application.yaml still targeting ${actual_version}, expected ${expected_version}"
     exit 1
     fi
 
