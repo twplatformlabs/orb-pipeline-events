@@ -2,18 +2,7 @@
 #shellcheck disable=SC2086,SC2004
 set -eo pipefail
 
-# Both CIRCLE_ORGANIZATION_ID and CIRCLE_PROJECT_ID are auto-injected into every job running under the GitHub App integration,
-# This if block allows us to support legacy oauth circle orgs and newer github app orgs, so you don't need to hardcode the UUIDs.
-if [ -n "$CIRCLE_ORGANIZATION_ID" ] && [ -n "$CIRCLE_PROJECT_ID" ]; then
-  PROJECT_SLUG="circleci/$CIRCLE_ORGANIZATION_ID/$CIRCLE_PROJECT_ID"
-elif [ -n "$CIRCLE_PROJECT_USERNAME" ] && [ -n "$CIRCLE_PROJECT_REPONAME" ]; then
-  PROJECT_SLUG="gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
-else
-  echo "ERROR: no project identifiers available" >&2
-  exit 1
-fi
-
-PROJECTAPI_URL="https://circleci.com/api/v2/project/$PROJECT_SLUG/schedule"
+PROJECTAPI_URL="https://circleci.com/api/v2/project/gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/schedule"
 echo "$PROJECTAPI_URL"
 EXISTING_SCHEDULED_PIPELINES=$(curl --request GET --url $PROJECTAPI_URL --header "Circle-Token: $CIRCLE_TOKEN")
 echo "$EXISTING_SCHEDULED_PIPELINES"
