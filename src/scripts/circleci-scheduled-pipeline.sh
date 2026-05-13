@@ -13,7 +13,7 @@ else
   exit 1
 fi
 
-PROJECT_API_URL="https://circleci.com/api/v2/project/$PROJECT_SLUG/schedule"
+PROJECTAPI_URL="https://circleci.com/api/v2/project/$PROJECT_SLUG/schedule"
 echo "$PROJECTAPI_URL"
 EXISTING_SCHEDULED_PIPELINES=$(curl --request GET --url $PROJECTAPI_URL --header "Circle-Token: $CIRCLE_TOKEN")
 echo "$EXISTING_SCHEDULED_PIPELINES"
