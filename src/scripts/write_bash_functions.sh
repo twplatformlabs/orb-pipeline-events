@@ -13,6 +13,9 @@ cat << 'EOF' > bash-functions.sh
 # $2 = aws role to assume
 # Expects IAM credentials to be defined as ENV variables
 
+# If you are using an AWS OPT-IN Region, and you do not set both AWS_REGION as well as AWS_DEFAULT_REGION to be the same opt-in region,
+#   the token you get back will not be valid against EKS, because you will not be routed to the regional STS endpoint
+#   Make sure you set AWS_DEFAULT_REGION prior to running this command, or the token you get back will be useless.
 awsAssumeRole () {
     aws sts assume-role --output json --role-arn arn:aws:iam::"$1":role/"$2" --role-session-name aws-assume-role > credentials
 
